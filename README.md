@@ -1,7 +1,7 @@
 
 # OpticalToolkit
 
-### A collection of deep learning utility functions
+### A collection of deep learning -- computer vision utility functions
 
 ##### Visualize
 - Visualize a dataset in a grid
