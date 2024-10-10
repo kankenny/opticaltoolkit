@@ -5,7 +5,7 @@ from .core import min_max_normalize
 SIZE = 200
 
 
-def sprite(X, channels=3):
+def visualize_images(X, channels=3):
     """Create a sprite image from input data."""
     matrix_images = _vector_to_matrix(X, channels)
     return _create_sprite_image(matrix_images, channels)
