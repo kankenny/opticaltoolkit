@@ -1,14 +1,14 @@
+import os
+
 import cv2
+import matplotlib.pyplot as plt
 import numpy as np
 
 from optical_toolkit.core import min_max_normalize
 
 
 def visualize_images(
-    images,
-    image_size=200,
-    channels=3,
-    border_size=0,
+    images, image_size=200, channels=3, border_size=0, fname="sprite.png"
 ):
     """Create a sprite image from input data."""
     reshaped_images = [cv2.resize(img, (image_size, image_size)) for img in images]
@@ -28,7 +28,12 @@ def visualize_images(
 
     reshaped_images = np.array(reshaped_images)
 
-    return _create_sprite_image(reshaped_images, channels)
+    sprite_image = _create_sprite_image(reshaped_images, channels)
+
+    output_path = os.path.join("examples", fname)
+    plt.imsave(output_path, sprite_image)
+
+    return sprite_image
 
 
 def _create_sprite_image(images, channels):
