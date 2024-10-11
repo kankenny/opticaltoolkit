@@ -3,8 +3,8 @@ setup:
 
 lint:
 	isort .
-	flake8 .
 	black .
+	flake8 .
 
 test:
 	pytest .
