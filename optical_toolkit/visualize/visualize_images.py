@@ -4,16 +4,31 @@ import numpy as np
 from optical_toolkit.core import min_max_normalize
 
 
-def visualize_images(X, image_size=200, channels=3):
+def visualize_images(
+    images,
+    image_size=200,
+    channels=3,
+    border_size=0,
+):
     """Create a sprite image from input data."""
-    matrix_images = _reshape_images(X, image_size, channels)
-    return _create_sprite_image(matrix_images, channels)
-
-
-def _reshape_images(images, image_size, channels):
-    """Convert a vector of images to a 4D matrix and reshape."""
     reshaped_images = [cv2.resize(img, (image_size, image_size)) for img in images]
-    return np.array(reshaped_images)
+
+    if border_size:
+        reshaped_images = [
+            cv2.copyMakeBorder(
+                img,
+                top=border_size,
+                bottom=border_size,
+                left=border_size,
+                right=border_size,
+                borderType=cv2.BORDER_CONSTANT,
+            )
+            for img in reshaped_images
+        ]
+
+    reshaped_images = np.array(reshaped_images)
+
+    return _create_sprite_image(reshaped_images, channels)
 
 
 def _create_sprite_image(images, channels):

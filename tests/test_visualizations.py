@@ -14,8 +14,9 @@ def test_visualize_images():
     assert len(noise_images) == 50
 
     grid = visualize_images(noise_images, height * 2)
-    assert grid is not None
-
-    os.makedirs("examples", exist_ok=True)
     output_path = os.path.join("examples", "noise_image_grid.png")
     plt.imsave(output_path, grid)
+
+    bordered_grid = visualize_images(noise_images, height * 2, border_size=10)
+    output_path = os.path.join("examples", "noise_image_grid_bordered.png")
+    plt.imsave(output_path, bordered_grid)
