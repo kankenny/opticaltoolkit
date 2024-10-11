@@ -4,7 +4,7 @@ import cv2
 import matplotlib.pyplot as plt
 import numpy as np
 
-from optical_toolkit.core import min_max_normalize
+from optical_toolkit.core import add_border, min_max_normalize
 
 
 def visualize_images(
@@ -14,17 +14,7 @@ def visualize_images(
     reshaped_images = [cv2.resize(img, (image_size, image_size)) for img in images]
 
     if border_size:
-        reshaped_images = [
-            cv2.copyMakeBorder(
-                img,
-                top=border_size,
-                bottom=border_size,
-                left=border_size,
-                right=border_size,
-                borderType=cv2.BORDER_CONSTANT,
-            )
-            for img in reshaped_images
-        ]
+        reshaped_images = [add_border(img, border_size) for img in reshaped_images]
 
     reshaped_images = np.array(reshaped_images)
 
