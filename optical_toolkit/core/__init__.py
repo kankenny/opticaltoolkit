@@ -1,1 +1,1 @@
-from .core import *
+from .min_max_normalize import min_max_normalize

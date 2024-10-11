@@ -1,17 +1,19 @@
+import cv2
 import numpy as np
 
-from .core import min_max_normalize
+from optical_toolkit.core import min_max_normalize
 
 
 def visualize_images(X, image_size=200, channels=3):
     """Create a sprite image from input data."""
-    matrix_images = _vector_to_matrix(X, image_size, channels)
+    matrix_images = _reshape_images(X, image_size, channels)
     return _create_sprite_image(matrix_images, channels)
 
 
-def _vector_to_matrix(images, image_size, channels):
-    """Convert a vector of images to a 4D matrix."""
-    return np.reshape(images, (-1, image_size, image_size, channels))
+def _reshape_images(images, image_size, channels):
+    """Convert a vector of images to a 4D matrix and reshape."""
+    reshaped_images = [cv2.resize(img, (image_size, image_size)) for img in images]
+    return np.array(reshaped_images)
 
 
 def _create_sprite_image(images, channels):
