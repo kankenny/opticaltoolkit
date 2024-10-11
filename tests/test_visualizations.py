@@ -20,11 +20,21 @@ def test_visualize_images():
     )
 
 
-def test_tsne_embedding():
+def test_tsne_2d_embedding():
     digits = load_digits()
     X = digits.images
 
     try:
         visualize_embeddings(X)
+    except Exception as e:
+        pytest.fail(f"visualize_embeddings raised an exception: {e}")
+
+
+def test_tsne_3d_embedding():
+    digits = load_digits()
+    X = digits.images
+
+    try:
+        visualize_embeddings(X, dims=3)
     except Exception as e:
         pytest.fail(f"visualize_embeddings raised an exception: {e}")
