@@ -19,7 +19,7 @@ def _reshape_images(images, image_size, channels):
 def _create_sprite_image(images, channels):
     """Create a sprite image from a list of images."""
     img_h, img_w = images.shape[1], images.shape[2]
-    n_plots = int(np.ceil(np.sqrt(images.shape[0])))
+    n_plots = int(np.floor(np.sqrt(images.shape[0])))
     sprite_image = np.ones((img_h * n_plots, img_w * n_plots, channels))
 
     for i in range(n_plots):

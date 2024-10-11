@@ -1,3 +1,6 @@
+import os
+
+import matplotlib.pyplot as plt
 import numpy as np
 
 from optical_toolkit.visualize.visualize_images import visualize_images
@@ -12,3 +15,7 @@ def test_visualize_images():
 
     grid = visualize_images(noise_images, height * 2)
     assert grid is not None
+
+    os.makedirs("examples", exist_ok=True)
+    output_path = os.path.join("examples", "noise_image_grid.png")
+    plt.imsave(output_path, grid)
