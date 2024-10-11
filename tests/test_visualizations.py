@@ -15,6 +15,14 @@ def test_visualize_images():
 
     visualize_images(noise_images, height * 2, fname="noise_image_grid.png")
 
+
+def test_visualize_images_bordered():
+    height, width = 100, 100
+    chans = 3
+
+    noise_images = [np.random.rand(height, width, chans) for _ in range(50)]
+    assert len(noise_images) == 50
+
     visualize_images(
         noise_images, height * 2, border_size=10, fname="noise_image_grid_bordered.png"
     )
