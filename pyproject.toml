@@ -1,6 +1,6 @@
 [project]
 name = "optical_toolkit"
-version = "0.3.7"
+version = "0.3.8"
 description = "An API for streamlining unsupervised ML ops such as visualizations, clustering, CNN insights, etc."
 authors = [
     {name = "kenny",email = "97374837+kankenny@users.noreply.github.com"}
@@ -43,7 +43,7 @@ exclude = '''
 optical_toolkit = "optical_toolkit:main"
 
 [tool.commitizen]
-version = "0.2.1"
+version = "0.3.8"
 tag_format = "v$version"
 version_files = [
   "pyproject.toml:version",
