@@ -5,7 +5,7 @@ from sklearn.manifold import TSNE
 from sklearn.preprocessing import MinMaxScaler
 
 
-def visualize_embeddings(X, y=None, dims=2, fname="tsne_embedding"):
+def get_embeddings(X, y=None, dims=2, fname="tsne_embedding"):
     """
     Given a numpy array of images X, flatten the images
     and plot a 2D or 3D embedding using t-SNE.
@@ -54,6 +54,8 @@ def visualize_embeddings(X, y=None, dims=2, fname="tsne_embedding"):
         plt.title("2D Embedding of Images using t-SNE")
         plt.xlabel("Dimension 1")
         plt.ylabel("Dimension 2")
+        plt.xticks([])
+        plt.yticks([])
 
         if y is not None:
             legend_labels = [
@@ -78,6 +80,9 @@ def visualize_embeddings(X, y=None, dims=2, fname="tsne_embedding"):
         ax.set_xlabel("Dimension 1")
         ax.set_ylabel("Dimension 2")
         ax.set_zlabel("Dimension 3")
+        ax.set_xticks([])
+        ax.set_yticks([])
+        ax.set_zticks([])
 
         if y is not None:
             for cls in unique_classes:

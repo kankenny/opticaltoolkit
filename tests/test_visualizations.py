@@ -2,7 +2,7 @@ import numpy as np
 import pytest
 from sklearn.datasets import load_digits
 
-from optical_toolkit.visualize.visualize_embeddings import visualize_embeddings
+from optical_toolkit.visualize.embeddings import get_embeddings
 from optical_toolkit.visualize.visualize_images import visualize_images
 
 
@@ -29,11 +29,12 @@ def test_visualize_images_bordered(noise_images):
 def test_tsne_2d_embedding():
     digits = load_digits()
     X = digits.images
+    y = digits.target
 
     try:
-        visualize_embeddings(X)
+        get_embeddings(X, y, dims=2)
     except Exception as e:
-        pytest.fail(f"visualize_embeddings raised an exception: {e}")
+        pytest.fail(f"get_embeddings raised an exception: {e}")
 
 
 def test_tsne_3d_embedding():
@@ -42,6 +43,6 @@ def test_tsne_3d_embedding():
     y = digits.target
 
     try:
-        visualize_embeddings(X, y)
+        get_embeddings(X, y, dims=3)
     except Exception as e:
-        pytest.fail(f"visualize_embeddings raised an exception: {e}")
+        pytest.fail(f"get_embeddings raised an exception: {e}")
