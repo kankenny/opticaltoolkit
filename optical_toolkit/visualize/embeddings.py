@@ -1,11 +1,17 @@
 import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
-from sklearn.manifold import TSNE
+from .functions.manifolds import get_manifold, ManifoldType
 from sklearn.preprocessing import MinMaxScaler
 
 
-def get_embeddings(X, y=None, dims=2, fname="tsne_embedding"):
+def get_embeddings(X,
+                   y=None,
+                   dims: int = 2,
+                   embedding_type: str | ManifoldType = "TSNE",
+                   fname="embedding",
+                   kappa: int = 30,
+                   seed: int | None = 42):
     """
     Given a numpy array of images X, flatten the images
     and plot a 2D or 3D embedding using t-SNE.
@@ -32,8 +38,9 @@ def get_embeddings(X, y=None, dims=2, fname="tsne_embedding"):
     flat_images = X.reshape(num_images, image_size)
 
     # Apply t-SNE to reduce dimensionality to 2D or 3D
-    tsne = TSNE(n_components=dims, random_state=42)
-    embedding = tsne.fit_transform(flat_images)
+    manifold_model = get_manifold(
+        embedding_type, dims=dims, kappa=kappa, seed=seed)
+    embedding = manifold_model.fit_transform(flat_images)
     embedding = MinMaxScaler().fit_transform(embedding)
 
     # Assign colors if needed
@@ -91,6 +98,6 @@ def get_embeddings(X, y=None, dims=2, fname="tsne_embedding"):
             ax.legend(title="Classes", loc="best")
 
     plt.show()
-    plt.savefig(f"examples/{dims}d_{fname}.png", dpi=300)
+    plt.savefig(f"examples/{dims}d_{str(embedding_type)}_{fname}.png", dpi=300)
 
     return embedding

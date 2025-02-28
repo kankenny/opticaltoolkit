@@ -11,12 +11,10 @@ def visualize_images(
     images, image_size=200, channels=3, border_size=0, fname="sprite.png"
 ):
     """Create a sprite image from input data."""
-    reshaped_images = [cv2.resize(img, (image_size, image_size))
-                       for img in images]
+    reshaped_images = [cv2.resize(img, (image_size, image_size)) for img in images]
 
     if border_size:
-        reshaped_images = [add_border(img, border_size)
-                           for img in reshaped_images]
+        reshaped_images = [add_border(img, border_size) for img in reshaped_images]
 
     reshaped_images = np.array(reshaped_images)
 
@@ -40,8 +38,8 @@ def _create_sprite_image(images, channels):
             if this_filter < images.shape[0]:
                 this_img = min_max_normalize(images[this_filter])
                 sprite_image[
-                    i * img_h: (i + 1) * img_h,
-                    j * img_w: (j + 1) * img_w,
+                    i * img_h : (i + 1) * img_h,
+                    j * img_w : (j + 1) * img_w,
                 ] = this_img
 
     return sprite_image
