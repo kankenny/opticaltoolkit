@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "optical_toolkit"
 version = "0.2.1"
-description = An API for streamlining unsupervised ML ops such as visualizations, clustering, CNN insights, etc."
+description = "An API for streamlining unsupervised ML ops such as visualizations, clustering, CNN insights, etc."
 authors = ["Kennette Basco kmaddela@nyit.edu>"]
 license = "MIT License"
 
