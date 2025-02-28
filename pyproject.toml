@@ -1,8 +1,14 @@
-[tool.poetry]
+[project]
 name = "optical_toolkit"
 version = "0.2.1"
-description = "An API for streamlining unsupervised ML ops such as visualizations, clustering, CNN insights, etc."
+
+[project.authors]
 authors = ["Kennette Basco <kmaddela@nyit.edu>"]
+
+[project.description]
+description = "An API for streamlining unsupervised ML ops such as visualizations, clustering, CNN insights, etc."
+
+[project.license]
 license = "MIT License"
 
 [tool.poetry.dependencies]
@@ -36,7 +42,7 @@ exclude = '''
 )\
 '''
 
-[tool.poetry.scripts]
+[project.scripts]
 optical_toolkit = "optical_toolkit:main"
 
 [tool.commitizen]
