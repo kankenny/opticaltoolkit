@@ -11,6 +11,7 @@ def get_embeddings(X,
                    embedding_type: str | ManifoldType = "TSNE",
                    fname="embedding",
                    kappa: int = 30,
+                   return_plot: bool = False,
                    seed: int | None = 42):
     """
     Given a numpy array of images X, flatten the images
@@ -98,6 +99,5 @@ def get_embeddings(X,
             ax.legend(title="Classes", loc="best")
 
     plt.show()
-    plt.savefig(f"examples/{dims}d_{str(embedding_type)}_{fname}.png", dpi=300)
 
-    return embedding
+    return embedding, plt.gcf() if return_plot else embedding
