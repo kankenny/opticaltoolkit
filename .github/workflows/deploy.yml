@@ -4,9 +4,6 @@ on:
   push:
     tags: ['v*']
 
-permissions:
-  contents: write
-
 defaults:
   run:
     shell: bash
