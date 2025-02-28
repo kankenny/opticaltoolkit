@@ -1,14 +1,8 @@
 [project]
 name = "optical_toolkit"
 version = "0.2.1"
-
-[project.authors]
-authors = ["Kennette Basco <kmaddela@nyit.edu>"]
-
-[project.description]
 description = "An API for streamlining unsupervised ML ops such as visualizations, clustering, CNN insights, etc."
-
-[project.license]
+authors = ["Kennette Basco <kmaddela@nyit.edu>"]
 license = "MIT License"
 
 [tool.poetry.dependencies]
