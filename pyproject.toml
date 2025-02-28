@@ -5,9 +5,9 @@ description = "An API for streamlining unsupervised ML ops such as visualization
 authors = [
     {name = "kenny",email = "97374837+kankenny@users.noreply.github.com"}
 ]
-license = "MIT License"
 readme = "README.md"
 requires-python = ">=3.10"
+license = "MIT License"
 
 dependencies = [
   "python (>=3.10)",
