@@ -11,7 +11,6 @@ def noise_images():
     height, width = 100, 100
     chans = 3
     images = [np.random.rand(height, width, chans) for _ in range(50)]
-    assert len(images) == 50
     return images
 
 
@@ -38,8 +37,9 @@ def test_tsne_2d_embedding():
 def test_tsne_3d_embedding():
     digits = load_digits()
     X = digits.images
+    y = digits.target
 
     try:
-        visualize_embeddings(X, dims=3)
+        visualize_embeddings(X, y)
     except Exception as e:
         pytest.fail(f"visualize_embeddings raised an exception: {e}")

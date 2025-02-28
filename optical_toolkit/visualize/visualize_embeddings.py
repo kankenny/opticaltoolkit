@@ -1,10 +1,11 @@
+import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
 from sklearn.manifold import TSNE
 from sklearn.preprocessing import MinMaxScaler
 
 
-def visualize_embeddings(X, dims=2, fname="tsne_embedding"):
+def visualize_embeddings(X, y=None, dims=2, fname="tsne_embedding"):
     """
     Given a numpy array of images X, flatten the images
     and plot a 2D or 3D embedding using t-SNE.
@@ -16,6 +17,7 @@ def visualize_embeddings(X, dims=2, fname="tsne_embedding"):
 
     Returns:
     embedding (numpy array): The 2D or 3D embedding.
+
     """
 
     if dims not in [2, 3]:
@@ -33,22 +35,45 @@ def visualize_embeddings(X, dims=2, fname="tsne_embedding"):
     embedding = tsne.fit_transform(flat_images)
     embedding = MinMaxScaler().fit_transform(embedding)
 
+    # Assign colors if needed
+    colors = "black"  # Default color
+    if y is not None:
+        unique_classes = np.unique(y)
+        colormap = matplotlib.colormaps.get_cmap(
+            "tab10")  # Get distinct colors
+        class_to_color = {cls: colormap(
+            i / max(1, len(unique_classes) - 1)) for i, cls in enumerate(unique_classes)}
+        colors = np.array([class_to_color[label] for label in y])
+
     # Plot the embedding
     plt.figure(figsize=(8, 6))
-
     if dims == 2:
-        plt.scatter(embedding[:, 0], embedding[:, 1], s=5, c="black")
+        plt.scatter(embedding[:, 0], embedding[:, 1], s=5, c=colors)
         plt.title("2D Embedding of Images using t-SNE")
         plt.xlabel("Dimension 1")
         plt.ylabel("Dimension 2")
 
+        if y is not None:
+            legend_labels = [plt.Line2D([0], [0], marker='o', color='w',
+                                        markerfacecolor=class_to_color[cls],
+                                        markersize=8) for cls in unique_classes]
+            plt.legend(legend_labels, unique_classes,
+                       title="Classes", loc="best")
+
     elif dims == 3:
         ax = plt.axes(projection="3d")
-        ax.scatter(embedding[:, 0], embedding[:, 1], embedding[:, 2], s=5, c="black")
+        ax.scatter(embedding[:, 0], embedding[:, 1],
+                   embedding[:, 2], s=5, c=colors)
         ax.set_title("3D Embedding of Images using t-SNE")
         ax.set_xlabel("Dimension 1")
         ax.set_ylabel("Dimension 2")
         ax.set_zlabel("Dimension 3")
+
+        if y is not None:
+            for cls in unique_classes:
+                ax.scatter([], [], [], color=class_to_color[cls],
+                           label=str(cls))
+            ax.legend(title="Classes", loc="best")
 
     plt.show()
     plt.savefig(f"examples/{dims}d_{fname}.png", dpi=300)
