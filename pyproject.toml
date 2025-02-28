@@ -11,10 +11,10 @@ license = "MIT License"
 
 dependencies = [
   "python (>=3.10)",
-  "matplotlib = (>=3.10.1)",
-  "numpy = (>=2.2.3)",
-  "opencv-python-headless = (>=4.11.0.86)",
-  "scikit-learn = (>=1.6.1)"
+  "matplotlib (>=3.10.1)",
+  "numpy (>=2.2.3)",
+  "opencv-python-headless (>=4.11.0.86)",
+  "scikit-learn (>=1.6.1)"
 ]
 
 [tool.poetry.group.dev.dependencies]
