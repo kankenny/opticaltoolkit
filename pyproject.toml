@@ -2,16 +2,20 @@
 name = "optical_toolkit"
 version = "0.2.1"
 description = "An API for streamlining unsupervised ML ops such as visualizations, clustering, CNN insights, etc."
-authors = ["Kennette Basco <kmaddela@nyit.edu>"]
+authors = [
+    {name = "kenny",email = "97374837+kankenny@users.noreply.github.com"}
+]
 license = "MIT License"
+readme = "README.md"
+requires-python = ">=3.10"
 
-[tool.poetry.dependencies]
-python = "^3.10"
-matplotlib = "^3.10.1"
-numpy = "^2.2.3"
-opencv-python-headless = "^4.11.0.86"
-scikit-learn = "^1.6.1"
-
+dependencies = [
+  "python (>=3.10)",
+  "matplotlib = (>=3.10.1)",
+  "numpy = (>=2.2.3)",
+  "opencv-python-headless = (>=4.11.0.86)",
+  "scikit-learn = (>=1.6.1)"
+]
 
 [tool.poetry.group.dev.dependencies]
 black = "^25.1.0"
