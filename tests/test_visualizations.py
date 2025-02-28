@@ -20,7 +20,9 @@ def test_visualize_images(noise_images):
 
 def test_visualize_images_bordered(noise_images):
     visualize_images(
-        noise_images, 100 * 2, border_size=10, fname="noise_image_grid_bordered.png"
+        noise_images, 100 * 2,
+        border_size=10,
+        fname="noise_image_grid_bordered.png"
     )
 
 

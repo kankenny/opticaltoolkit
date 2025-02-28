@@ -11,7 +11,8 @@ def visualize_embeddings(X, y=None, dims=2, fname="tsne_embedding"):
     and plot a 2D or 3D embedding using t-SNE.
 
     Parameters:
-    X (numpy array): Array of images of shape (num_images, height, width, channels)
+    X (numpy array): Array of images of shape --
+                     (num_images, height, width, channels)
                      or (num_images, height, width) for grayscale images.
     dims (int): Number of dims for t-SNE embedding (2 or 3).
 
@@ -39,10 +40,11 @@ def visualize_embeddings(X, y=None, dims=2, fname="tsne_embedding"):
     colors = "black"  # Default color
     if y is not None:
         unique_classes = np.unique(y)
-        colormap = matplotlib.colormaps.get_cmap(
-            "tab10")  # Get distinct colors
-        class_to_color = {cls: colormap(
-            i / max(1, len(unique_classes) - 1)) for i, cls in enumerate(unique_classes)}
+        colormap = matplotlib.colormaps.get_cmap("tab10")
+        class_to_color = {
+            cls: colormap(i / max(1, len(unique_classes) - 1))
+            for i, cls in enumerate(unique_classes)
+        }
         colors = np.array([class_to_color[label] for label in y])
 
     # Plot the embedding
@@ -54,9 +56,17 @@ def visualize_embeddings(X, y=None, dims=2, fname="tsne_embedding"):
         plt.ylabel("Dimension 2")
 
         if y is not None:
-            legend_labels = [plt.Line2D([0], [0], marker='o', color='w',
-                                        markerfacecolor=class_to_color[cls],
-                                        markersize=8) for cls in unique_classes]
+            legend_labels = [
+                plt.Line2D(
+                    [0],
+                    [0],
+                    marker="o",
+                    color="w",
+                    markerfacecolor=class_to_color[cls],
+                    markersize=8,
+                )
+                for cls in unique_classes
+            ]
             plt.legend(legend_labels, unique_classes,
                        title="Classes", loc="best")
 
