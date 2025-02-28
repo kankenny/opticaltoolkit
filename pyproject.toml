@@ -6,11 +6,10 @@ authors = [
     {name = "kenny",email = "97374837+kankenny@users.noreply.github.com"}
 ]
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.10,<4.0"
 license = "MIT License"
 
 dependencies = [
-  "python (>=3.10)",
   "matplotlib (>=3.10.1)",
   "numpy (>=2.2.3)",
   "opencv-python-headless (>=4.11.0.86)",
