@@ -5,8 +5,8 @@ HIGH
 2.  Add optional (display_labels=True) labels on each image per obs in display_dataset()                # DONE
 3.  Standardize the dataset before obtaining the embeddings                                             # DONE
 4.  Force display on notebooks via iPython                                                              # UNNEEDED
-5.  Visualize the learned filters of a CNN
-6.  Analyze the highly confident errors of a model
+5.  Visualize the learned filters of a CNN                                                              # UNNEEDED
+6.  Analyze the highly confident errors of a model      
 7.  Analyze the confusion matrix that is normalized by rows and cols
 
 __________________________________________________________________________________________________________________
