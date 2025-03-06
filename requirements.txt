@@ -1,6 +1,7 @@
 black
 flake8
 isort
+ipython==8.32.0
 matplotlib
 numpy
 opencv-python-headless
