@@ -38,3 +38,6 @@ def min_max_normalize_images(X, min_val=0, max_val=1):
 
     images = [min_max_normalize(x, min_val, max_val) for x in X]
     return images
+
+
+__all__ = [min_max_normalize_images]

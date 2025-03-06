@@ -59,7 +59,7 @@ def get_embeddings(X,
     plt.figure(figsize=(8, 6))
     if dims == 2:
         plt.scatter(embedding[:, 0], embedding[:, 1], s=5, c=colors)
-        plt.title("2D Embedding of Images using t-SNE")
+        plt.title(f"2D Embedding of Images using {embedding_type}")
         plt.xlabel("Dimension 1")
         plt.ylabel("Dimension 2")
         plt.xticks([])
@@ -84,7 +84,7 @@ def get_embeddings(X,
         ax = plt.axes(projection="3d")
         ax.scatter(embedding[:, 0], embedding[:, 1],
                    embedding[:, 2], s=5, c=colors)
-        ax.set_title("3D Embedding of Images using t-SNE")
+        ax.set_title(f"3D Embedding of Images using {embedding_type}")
         ax.set_xlabel("Dimension 1")
         ax.set_ylabel("Dimension 2")
         ax.set_zlabel("Dimension 3")

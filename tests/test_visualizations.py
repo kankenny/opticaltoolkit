@@ -13,17 +13,28 @@ from optical_toolkit.visualize.functions.manifold_type import ManifoldType
 def noise_images():
     height, width = 100, 100
     chans = 3
-    images = [np.random.rand(height, width, chans) for _ in range(50)]
-    return images
+    X = [np.random.rand(height, width, chans) for _ in range(50)]
+    return X
+
+
+@pytest.fixture
+def mnist_digits_data():
+    digits = load_digits()
+    X = digits.images
+    y = digits.target
+
+    return X, y
 
 
 def test_visualize_images(noise_images):
-    visualize_images(noise_images, 100 * 2, fname="noise_image_grid.png")
+    visualize_images(noise_images, image_size=100 *
+                     2, fname="noise_image_grid.png")
 
 
 def test_visualize_images_bordered(noise_images):
     visualize_images(
-        noise_images, 100 * 2,
+        noise_images,
+        image_size=100 * 2,
         border_size=10,
         fname="noise_image_grid_bordered.png"
     )
@@ -41,10 +52,8 @@ manifold_types = [
 ]
 
 
-def test_compare_2d_embeddings():
-    digits = load_digits()
-    X = digits.images
-    y = digits.target
+def test_compare_2d_embeddings(mnist_digits_data):
+    X, y = mnist_digits_data
 
     rows = cols = math.ceil(math.sqrt(len(manifold_types)))
     fig, axes = plt.subplots(rows, cols, figsize=(4 * cols, 4 * rows))
@@ -72,10 +81,8 @@ def test_compare_2d_embeddings():
     plt.show()
 
 
-def test_compare_3d_embeddings():
-    digits = load_digits()
-    X = digits.images
-    y = digits.target
+def test_compare_3d_embeddings(mnist_digits_data):
+    X, y = mnist_digits_data
 
     rows = cols = math.ceil(math.sqrt(len(manifold_types)))
     fig, axes = plt.subplots(rows, cols, figsize=(4 * cols, 4 * rows))

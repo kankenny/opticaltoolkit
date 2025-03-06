@@ -8,7 +8,7 @@ from optical_toolkit.core import add_border, preprocess
 
 
 def visualize_images(
-    images, image_size=200, border_size=0, fname="sprite.png"
+    images, y=None, image_size=200, border_size=0, fname="sprite.png"
 ):
     """Create a sprite image from input data."""
     images = [cv2.resize(img, (image_size, image_size))
@@ -23,7 +23,6 @@ def visualize_images(
 
     sprite_image = create_sprite_image(images)
 
-    sprite_image = np.clip(sprite_image, 0, 1)
     output_path = os.path.join("examples", fname)
     plt.imsave(output_path, sprite_image)
 
