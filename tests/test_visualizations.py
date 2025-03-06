@@ -29,30 +29,6 @@ def test_visualize_images_bordered(noise_images):
     )
 
 
-def test_tsne_2d_embedding():
-    digits = load_digits()
-    X = digits.images
-    y = digits.target
-
-    try:
-        _, fig = get_embeddings(X, y, dims=2, return_plot=True)
-        fig.savefig("examples/2d_TSNE_embedding.png", dpi=300)
-    except Exception as e:
-        pytest.fail(f"get_embeddings raised an exception: {e}")
-
-
-def test_tsne_3d_embedding():
-    digits = load_digits()
-    X = digits.images
-    y = digits.target
-
-    try:
-        _, fig = get_embeddings(X, y, dims=3, return_plot=True)
-        fig.savefig("examples/3d_TSNE_embedding.png", dpi=300)
-    except Exception as e:
-        pytest.fail(f"get_embeddings raised an exception: {e}")
-
-
 def test_compare_2d_embeddings():
     digits = load_digits()
     X = digits.images
@@ -71,6 +47,7 @@ def test_compare_2d_embeddings():
 
     rows = cols = math.ceil(math.sqrt(len(manifold_types)))
     fig, axes = plt.subplots(rows, cols, figsize=(4 * cols, 4 * rows))
+    fig.suptitle("MNIST Digits (8x8) Projected on a Lower Dimensional Space")
 
     axes = axes.flatten()
 
@@ -83,6 +60,8 @@ def test_compare_2d_embeddings():
         axes[i].imshow(fig_2d.canvas.buffer_rgba())
         axes[i].set_title(f"{embedding_type.value} (2D)")
         axes[i].axis("off")
+        fig_2d.savefig(
+            f"examples/embeddings/2d_{embedding_type.name}_embedding.png", dpi=300)
 
     for j in range(i + 1, len(axes)):  # Hide extra subplots
         axes[j].axis("off")
@@ -122,6 +101,8 @@ def test_compare_3d_embeddings():
         axes[i].imshow(fig_3d.canvas.buffer_rgba())
         axes[i].set_title(f"{embedding_type.value} (3D)")
         axes[i].axis("off")
+        fig_3d.savefig(
+            f"examples/embeddings/3d_{embedding_type.name}_embedding.png", dpi=300)
 
     for j in range(i + 1, len(axes)):  # Hide extra subplots
         axes[j].axis("off")
