@@ -4,6 +4,8 @@ import numpy as np
 from .functions.manifolds import get_manifold, ManifoldType
 from sklearn.preprocessing import MinMaxScaler
 
+from optical_toolkit.core import add_border, preprocess
+
 
 def get_embeddings(X,
                    y=None,
@@ -31,6 +33,8 @@ def get_embeddings(X,
     if dims not in [2, 3]:
         raise ValueError("dims parameter must be 2 or 3.")
 
+    X = preprocess(X)
+
     # Get number of images and flatten each image
     num_images = X.shape[0]
     image_size = np.prod(
@@ -45,7 +49,7 @@ def get_embeddings(X,
     embedding = MinMaxScaler().fit_transform(embedding)
 
     # Assign colors if needed
-    colors = "black"  # Default color
+    colors = "black"
     if y is not None:
         unique_classes = np.unique(y)
         colormap = matplotlib.colormaps.get_cmap("tab10")

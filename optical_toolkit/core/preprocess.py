@@ -1,3 +1,5 @@
+import numpy as np
+
 from .min_max_normalize import min_max_normalize_images
 from .standardize import standardize_images
 
@@ -28,4 +30,4 @@ def preprocess(X, skip_steps=None, normalize_range=(0, 1)):
         if name not in skip_steps and name[:3] not in skip_steps:
             X = func(X)
 
-    return X
+    return np.array(X)
