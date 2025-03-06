@@ -2,8 +2,8 @@ HIGH
 ====
 
 1.  Use all available unsupervised embeddings                                                           # DONE
-2.  Add optional (display_labels=True) labels on each image per obs in display_dataset()
-3.  Standardize the dataset before obtaining the embeddings
+2.  Add optional (display_labels=True) labels on each image per obs in display_dataset()                # DONE
+3.  Standardize the dataset before obtaining the embeddings                                             # DONE
 4.  Force display on notebooks via iPython
 
 ______________________________________________________________________________________________________________
