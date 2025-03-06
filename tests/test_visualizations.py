@@ -28,22 +28,21 @@ def test_visualize_images_bordered(noise_images):
         fname="noise_image_grid_bordered.png"
     )
 
+manifold_types = [
+    ManifoldType.TSNE,
+    ManifoldType.ISOMAP,
+    ManifoldType.STANDARD_LLE,
+    ManifoldType.MODIFIED_LLE,
+    ManifoldType.HESSIAN_LLE,
+    ManifoldType.LTSA_LLE,
+    ManifoldType.MDS,
+    ManifoldType.SPECTRAL
+]
 
 def test_compare_2d_embeddings():
     digits = load_digits()
     X = digits.images
     y = digits.target
-
-    manifold_types = [
-        ManifoldType.TSNE,
-        ManifoldType.ISOMAP,
-        ManifoldType.STANDARD_LLE,
-        ManifoldType.MODIFIED_LLE,
-        ManifoldType.HESSIAN_LLE,
-        ManifoldType.LTSA_LLE,
-        ManifoldType.MDS,
-        ManifoldType.SPECTRAL
-    ]
 
     rows = cols = math.ceil(math.sqrt(len(manifold_types)))
     fig, axes = plt.subplots(rows, cols, figsize=(4 * cols, 4 * rows))
@@ -75,17 +74,6 @@ def test_compare_3d_embeddings():
     digits = load_digits()
     X = digits.images
     y = digits.target
-
-    manifold_types = [
-        ManifoldType.TSNE,
-        ManifoldType.ISOMAP,
-        ManifoldType.STANDARD_LLE,
-        ManifoldType.MODIFIED_LLE,
-        ManifoldType.HESSIAN_LLE,
-        ManifoldType.LTSA_LLE,
-        ManifoldType.MDS,
-        ManifoldType.SPECTRAL
-    ]
 
     rows = cols = math.ceil(math.sqrt(len(manifold_types)))
     fig, axes = plt.subplots(rows, cols, figsize=(4 * cols, 4 * rows))
