@@ -15,21 +15,25 @@ jobs:
     permissions:
       contents: write
       id-token: write
+
     steps:
-      - uses: actions/checkout@v2.4.0
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
+
       - name: Set up Python 3.10
-        uses: actions/setup-python@v5.2.0
+        uses: actions/setup-python@v5
         with:
           python-version: '3.10'
+
       - id: cache-dependencies
         name: Cache dependencies
-        uses: actions/cache@v2.1.7
+        uses: actions/cache@v3
         with:
           path: ${{ github.workspace }}/.venv
           key: dependencies-${{ hashFiles('**/poetry.lock') }}
           restore-keys: dependencies-
+
       - name: Install dependencies
         if: steps.cache-dependencies.cache-hit != 'true'
         run: |
@@ -38,26 +42,31 @@ jobs:
           poetry check --no-interaction
           poetry config virtualenvs.in-project true
           poetry install --no-interaction
+
       - name: Add version to environment
         run: |
           PROJECT_VERSION=$(poetry version --short)
           echo "PROJECT_VERSION=$PROJECT_VERSION" >> $GITHUB_ENV
+
       - name: Run tests
         run: |
           poetry run pytest -v
+
       - name: Build artifacts
         run: |
           poetry build --no-interaction
+
       - name: Generate Release Notes
         run: |
           git log $(git describe --tags --abbrev=0 HEAD^)..HEAD --pretty='format:* %h %s' --no-merges >> ".github/release_template.md"
+
       - name: Create Release Draft
         uses: softprops/action-gh-release@v1
         with:
           body_path: ".github/release_template.md"
           draft: true
           files: |
-            dist/optical_toolkit-${{env.PROJECT_VERSION}}-py3-none-any.whl
-            dist/optical_toolkit-${{env.PROJECT_VERSION}}.tar.gz
+            dist/optical_toolkit-${{ env.PROJECT_VERSION }}-py3-none-any.whl
+            dist/optical_toolkit-${{ env.PROJECT_VERSION }}.tar.gz
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
