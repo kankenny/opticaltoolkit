@@ -57,9 +57,9 @@ def create_sprite_image(images, y):
                     label = str(y[curr_filter])
                     text_position = (j * img_w + 5, i * img_h + 20)
                     cv2.putText(sprite_image, label, text_position,
-                                cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 0, 0), 2)
+                                cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2)
 
-    return sprite_image
+    return np.clip(sprite_image, 0, 1)
 
 
 __all__ = [visualize_images]
