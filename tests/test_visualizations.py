@@ -28,6 +28,7 @@ def test_visualize_images_bordered(noise_images):
         fname="noise_image_grid_bordered.png"
     )
 
+
 manifold_types = [
     ManifoldType.TSNE,
     ManifoldType.ISOMAP,
@@ -38,6 +39,7 @@ manifold_types = [
     ManifoldType.MDS,
     ManifoldType.SPECTRAL
 ]
+
 
 def test_compare_2d_embeddings():
     digits = load_digits()
