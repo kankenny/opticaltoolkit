@@ -1,4 +1,4 @@
-from .min_max_normalize import min_max_normalize
+from .min_max_normalize import min_max_normalize_images
 from .standardize import standardize_images
 
 
@@ -21,7 +21,7 @@ def preprocess(X, skip_steps=None, normalize_range=(0, 1)):
 
     preprocessing_steps = [
         ("standardize", standardize_images),
-        ("normalize", lambda X: min_max_normalize(X, *normalize_range)),
+        ("normalize", min_max_normalize_images),
     ]
 
     for name, func in preprocessing_steps:

@@ -18,6 +18,6 @@ def standardize_images(X):
     """
     means = np.mean(X, axis=(1, 2), keepdims=True)
     stds = np.std(X, axis=(1, 2), keepdims=True)
-    stds[stds == 0] = 1
+    stds[stds == 0] = 1e-3
 
     return (X - means) / stds
