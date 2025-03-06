@@ -1,5 +1,7 @@
 import math
 import matplotlib.pyplot as plt
+import pytest
+from sklearn.datasets import load_digits
 
 from optical_toolkit.visualize.functions.manifold_type import ManifoldType
 from optical_toolkit.visualize.embeddings import get_embeddings
@@ -14,6 +16,15 @@ manifold_types = [
     ManifoldType.MDS,
     ManifoldType.SPECTRAL
 ]
+
+
+@pytest.fixture
+def mnist_digits_data():
+    digits = load_digits()
+    X = digits.images
+    y = digits.target
+
+    return X, y
 
 
 def test_compare_2d_embeddings(mnist_digits_data):
