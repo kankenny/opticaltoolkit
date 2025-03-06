@@ -21,7 +21,7 @@ def visualize_images(
 
     images = np.array(images)
 
-    sprite_image = create_sprite_image(images)
+    sprite_image = create_sprite_image(images, y)
 
     output_path = os.path.join("examples", fname)
     plt.imsave(output_path, sprite_image)
@@ -29,11 +29,12 @@ def visualize_images(
     return sprite_image
 
 
-def create_sprite_image(images):
+def create_sprite_image(images, y):
     """Create a sprite image from a list of images."""
     if len(images.shape) == 4:
         channels = 3
     elif len(images.shape) == 3:
+        images = np.expand_dims(images, axis=-1)
         channels = 1
     else:
         raise ValueError("Expected images of HxWxC (RGB) or HxW (Grayscale)")
@@ -51,6 +52,12 @@ def create_sprite_image(images):
                     i * img_h: (i + 1) * img_h,
                     j * img_w: (j + 1) * img_w,
                 ] = curr_img
+
+                if y is not None:
+                    label = str(y[curr_filter])
+                    text_position = (j * img_w + 5, i * img_h + 20)
+                    cv2.putText(sprite_image, label, text_position,
+                                cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 0, 0), 2)
 
     return sprite_image
 
