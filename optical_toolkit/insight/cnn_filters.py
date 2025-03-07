@@ -7,7 +7,7 @@ from tensorflow.keras.applications import (VGG16, DenseNet121, EfficientNetB0,
                                            InceptionV3, MobileNet, ResNet50, Xception)
 
 
-def display_filters(model_path, layer_name=None):
+def display_filters(model_path, layer_name=None, num_filters=16, output_path=None):
     model = instantiate_model(model_path)
     layer = get_layer(model, layer_name)
 
@@ -43,14 +43,18 @@ def display_filters(model_path, layer_name=None):
 
     all_images = []
 
-    for filter_index in range(64):
+    if len(layer.filters) < num_filters:
+        num_filters = len(layer.filters)
+        num_filters = max(num_filters, 64)
+
+    for filter_index in range(num_filters):
         print(f"Processing filter {filter_index}")
         filter_index = tf.convert_to_tensor(filter_index, dtype=tf.int32)
         image = deprocess_image(generate_filter_pattern(filter_index))
         all_images.append(image)
 
     margin = 5
-    n = 8
+    n = int(num_filters**(1/2))
     cropped_width = img_width - 25 * 2
     cropped_height = img_height - 25 * 2
     width = n * cropped_width + (n - 1) * margin
@@ -68,8 +72,11 @@ def display_filters(model_path, layer_name=None):
                 :,
             ] = image
 
+    if output_path is None:
+        output_path = f"{layer.name}_layer_filters.png"
+
     keras.utils.save_img(
-        f"filters_for_layer_{layer_name}.png", stitched_filters)
+        f"examples/{output_path}", stitched_filters)
 
 
 def instantiate_model(model_path):
