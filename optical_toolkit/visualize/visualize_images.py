@@ -7,17 +7,13 @@ import numpy as np
 from optical_toolkit.core import add_border, preprocess
 
 
-def visualize_images(
-    images, y=None, image_size=200, border_size=0, fname="sprite.png"
-):
+def visualize_images(images, y=None, image_size=200, border_size=0, fname="sprite.png"):
     """Create a sprite image from input data."""
-    images = [cv2.resize(img, (image_size, image_size))
-              for img in images]
+    images = [cv2.resize(img, (image_size, image_size)) for img in images]
     images = preprocess(images)
 
     if border_size:
-        images = [add_border(img, border_size)
-                  for img in images]
+        images = [add_border(img, border_size) for img in images]
 
     images = np.array(images)
 
@@ -49,15 +45,22 @@ def create_sprite_image(images, y):
             if curr_filter < images.shape[0]:
                 curr_img = images[curr_filter]
                 sprite_image[
-                    i * img_h: (i + 1) * img_h,
-                    j * img_w: (j + 1) * img_w,
+                    i * img_h : (i + 1) * img_h,
+                    j * img_w : (j + 1) * img_w,
                 ] = curr_img
 
                 if y is not None:
                     label = str(y[curr_filter])
                     text_position = (j * img_w + 5, i * img_h + 20)
-                    cv2.putText(sprite_image, label, text_position,
-                                cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2)
+                    cv2.putText(
+                        sprite_image,
+                        label,
+                        text_position,
+                        cv2.FONT_HERSHEY_SIMPLEX,
+                        1,
+                        (0, 0, 0),
+                        2,
+                    )
 
     return np.clip(sprite_image, 0, 1)
 

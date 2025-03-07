@@ -7,14 +7,16 @@ from sklearn.preprocessing import MinMaxScaler
 from optical_toolkit.core import add_border, preprocess
 
 
-def get_embeddings(X,
-                   y=None,
-                   dims: int = 2,
-                   embedding_type: str | ManifoldType = "TSNE",
-                   fname="embedding",
-                   kappa: int = 30,
-                   return_plot: bool = False,
-                   seed: int | None = 42):
+def get_embeddings(
+    X,
+    y=None,
+    dims: int = 2,
+    embedding_type: str | ManifoldType = "TSNE",
+    fname="embedding",
+    kappa: int = 30,
+    return_plot: bool = False,
+    seed: int | None = 42,
+):
     """
     Given a numpy array of images X, flatten the images
     and plot a 2D or 3D embedding using t-SNE.
@@ -43,8 +45,7 @@ def get_embeddings(X,
     flat_images = X.reshape(num_images, image_size)
 
     # Apply t-SNE to reduce dimensionality to 2D or 3D
-    manifold_model = get_manifold(
-        embedding_type, dims=dims, kappa=kappa, seed=seed)
+    manifold_model = get_manifold(embedding_type, dims=dims, kappa=kappa, seed=seed)
     embedding = manifold_model.fit_transform(flat_images)
     embedding = MinMaxScaler().fit_transform(embedding)
 
@@ -81,13 +82,11 @@ def get_embeddings(X,
                 )
                 for cls in unique_classes
             ]
-            plt.legend(legend_labels, unique_classes,
-                       title="Classes", loc="best")
+            plt.legend(legend_labels, unique_classes, title="Classes", loc="best")
 
     elif dims == 3:
         ax = plt.axes(projection="3d")
-        ax.scatter(embedding[:, 0], embedding[:, 1],
-                   embedding[:, 2], s=5, c=colors)
+        ax.scatter(embedding[:, 0], embedding[:, 1], embedding[:, 2], s=5, c=colors)
         ax.set_title(f"3D Embedding of Images using {embedding_type}")
         ax.set_xlabel("Dimension 1")
         ax.set_ylabel("Dimension 2")
@@ -98,8 +97,7 @@ def get_embeddings(X,
 
         if y is not None:
             for cls in unique_classes:
-                ax.scatter([], [], [], color=class_to_color[cls],
-                           label=str(cls))
+                ax.scatter([], [], [], color=class_to_color[cls], label=str(cls))
             ax.legend(title="Classes", loc="best")
 
     plt.show()

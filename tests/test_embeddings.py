@@ -14,7 +14,7 @@ manifold_types = [
     ManifoldType.HESSIAN_LLE,
     ManifoldType.LTSA_LLE,
     ManifoldType.MDS,
-    ManifoldType.SPECTRAL
+    ManifoldType.SPECTRAL,
 ]
 
 
@@ -46,7 +46,8 @@ def test_compare_2d_embeddings(mnist_digits_data):
         axes[i].set_title(f"{embedding_type.value} (2D)")
         axes[i].axis("off")
         fig_2d.savefig(
-            f"examples/embeddings/2d_{embedding_type.name}_embedding.png", dpi=300)
+            f"examples/embeddings/2d_{embedding_type.name}_embedding.png", dpi=300
+        )
 
     for j in range(i + 1, len(axes)):  # Hide extra subplots
         axes[j].axis("off")
@@ -74,7 +75,8 @@ def test_compare_3d_embeddings(mnist_digits_data):
         axes[i].set_title(f"{embedding_type.value} (3D)")
         axes[i].axis("off")
         fig_3d.savefig(
-            f"examples/embeddings/3d_{embedding_type.name}_embedding.png", dpi=300)
+            f"examples/embeddings/3d_{embedding_type.name}_embedding.png", dpi=300
+        )
 
     for j in range(i + 1, len(axes)):  # Hide extra subplots
         axes[j].axis("off")
