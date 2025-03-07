@@ -16,11 +16,16 @@ ________________________________________________________________________________
 MED
 ===
 
+1. Change environment name of the deployment in GitHub
+2. Modularize display_filters fn
+3. Implement a function that will run the display_filters over multiple layers (display_layers)
+4. Simplify display_layers fn to output a single page summary
 
 ___________________________________________________________________________________________________________________
 
 LOW
 ===
 
+1. Update README.md
 
 ___________________________________________________________________________________________________________________
