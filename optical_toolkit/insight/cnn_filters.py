@@ -43,8 +43,8 @@ def display_filters(model_path, layer_name=None, num_filters=16, output_path=Non
 
     all_images = []
 
-    if len(layer.filters) < num_filters:
-        num_filters = len(layer.filters)
+    if layer.filters < num_filters:
+        num_filters = layer.filters
         num_filters = max(num_filters, 64)
 
     for filter_index in range(num_filters):
@@ -76,7 +76,7 @@ def display_filters(model_path, layer_name=None, num_filters=16, output_path=Non
         output_path = f"{layer.name}_layer_filters.png"
 
     keras.utils.save_img(
-        f"examples/{output_path}", stitched_filters)
+        output_path, stitched_filters)
 
 
 def instantiate_model(model_path):
