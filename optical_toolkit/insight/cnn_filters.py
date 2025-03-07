@@ -1,7 +1,10 @@
-from tensorflow import keras
+import random
+
 import numpy as np
 import tensorflow as tf
-import random
+from tensorflow import keras
+from tensorflow.keras.applications import (VGG16, DenseNet121, EfficientNetB0,
+                                           InceptionV3, MobileNet, ResNet50, Xception)
 
 
 def display_filters(model_path, layer_name=None):
@@ -70,14 +73,27 @@ def display_filters(model_path, layer_name=None):
 
 
 def instantiate_model(model_path):
-    try:
-        model = tf.keras.load_model(model_path)
-    except ValueError as e:
-        raise ValueError(f"{e}: Model not found")
+    # Check if model_path corresponds to a pretrained model name
+    pretrained_models = {
+        'xception': Xception,
+        'resnet50': ResNet50,
+        'inceptionv3': InceptionV3,
+        'vgg16': VGG16,
+        'densenet121': DenseNet121,
+        'mobilenet': MobileNet,
+        'efficientnetb0': EfficientNetB0
+    }
+
+    if model_path.lower() in pretrained_models:
+        # Load the corresponding pretrained model
+        model = pretrained_models[model_path.lower()](
+            weights="imagenet", include_top=False)
     else:
-        model = tf.keras.applications.xception.Xception(
-            weights="imagenet", include_top=False
-        )
+        # Load the model from the specified path
+        try:
+            model = tf.keras.models.load_model(model_path)
+        except ValueError as e:
+            raise ValueError(f"{e}: Model not found")
 
     return model
 

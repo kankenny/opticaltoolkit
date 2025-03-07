@@ -1,10 +1,11 @@
 import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
-from .functions.manifolds import get_manifold, ManifoldType
 from sklearn.preprocessing import MinMaxScaler
 
 from optical_toolkit.core import add_border, preprocess
+
+from .functions.manifolds import ManifoldType, get_manifold
 
 
 def get_embeddings(

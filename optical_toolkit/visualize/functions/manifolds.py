@@ -1,17 +1,13 @@
 from sklearn.decomposition import TruncatedSVD
 from sklearn.ensemble import RandomTreesEmbedding
-from sklearn.manifold import (
-    MDS,
-    TSNE,
-    Isomap,
-    LocallyLinearEmbedding,
-    SpectralEmbedding,
-)
+from sklearn.manifold import (MDS, TSNE, Isomap, LocallyLinearEmbedding,
+                              SpectralEmbedding)
 from sklearn.neighbors import NeighborhoodComponentsAnalysis
 from sklearn.pipeline import make_pipeline
 from sklearn.random_projection import SparseRandomProjection
-from .manifold_type import ManifoldType
+
 from .manifold_aliases import MANIFOLD_ALIASES
+from .manifold_type import ManifoldType
 
 
 def get_manifold(manifold_type: str | ManifoldType, dims, kappa, seed):
