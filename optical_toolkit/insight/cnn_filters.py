@@ -23,11 +23,11 @@ def display_filters(model_path, layer_name=None, num_filters=16, output_path=Non
 
     feature_extractor = keras.Model(inputs=model.input, outputs=layer.output)
 
-    img_sz = 200
+    IMG_SZ = 200
 
-    filters = generate_filter_patterns(layer, num_filters, img_sz, feature_extractor)
+    filters = generate_filter_patterns(layer, num_filters, IMG_SZ, feature_extractor)
 
-    stitched_filters = stitched_image(filters, num_filters, img_sz)
+    stitched_filters = stitched_image(filters, num_filters, IMG_SZ)
 
     if output_path is None:
         output_path = f"{layer.name}_layer_filters.png"
