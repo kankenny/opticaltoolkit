@@ -19,18 +19,17 @@ def get_embeddings(
     seed: int | None = 42,
 ):
     """
-    Given a numpy array of images X, flatten the images
-    and plot a 2D or 3D embedding using t-SNE.
+        Given a numpy array of images X, flatten the images
+        and plot a 2D or 3D embedding using t-SNE.
 
-    Parameters:
-    X (numpy array): Array of images of shape --
-                     (num_images, height, width, channels)
-                     or (num_images, height, width) for grayscale images.
-    dims (int): Number of dims for t-SNE embedding (2 or 3).
+        Parameters:
+            X (numpy array): Array of images of shape --
+                            (num_images, height, width, channels)
+                            or (num_images, height, width) for grayscale images.
+            dims (int): Number of dims for t-SNE embedding (2 or 3).
 
-    Returns:
-    embedding (numpy array): The 2D or 3D embedding.
-
+        Returns:
+            embedding (numpy array): The 2D or 3D embedding.
     """
 
     if dims not in [2, 3]:
