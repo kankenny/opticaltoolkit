@@ -1,9 +1,9 @@
 import numpy as np
 
 
-def stitched_image(images, num_image, img_sz):
+def stitched_image(images, num_images, img_sz):
     margin = 5
-    n = int(num_image ** (1 / 2))
+    n = int(num_images ** (1 / 2))
     cropped_width = img_sz - 25 * 2
     cropped_height = img_sz - 25 * 2
     width = n * cropped_width + (n - 1) * margin
