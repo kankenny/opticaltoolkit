@@ -6,6 +6,18 @@ from .functions.stitched_image import stitched_image
 
 
 def display_filters(model_path, layer_name=None, num_filters=16, output_path=None):
+    """
+        Displays the learned filters of a pretrained model.
+
+        Parameters:
+            model_path (str): The path to the model
+            layer_name (str): The layer name respective to the given model
+            num_filters (int): Number of filters to display in the layer
+            output_path (str): Where to save the visualization
+
+        Returns:
+            None
+    """
     model = instantiate_model(model_path)
     layer = get_layer(model, layer_name)
 
