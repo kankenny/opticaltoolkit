@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from sklearn.preprocessing import MinMaxScaler
 
-from optical_toolkit.core import preprocess
+from optical_toolkit.utils import preprocess
 
 from .functions.manifolds import ManifoldType, get_manifold
 

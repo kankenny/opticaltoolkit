@@ -4,7 +4,7 @@ import cv2
 import matplotlib.pyplot as plt
 import numpy as np
 
-from optical_toolkit.core import add_border, preprocess
+from optical_toolkit.utils import add_border, preprocess
 
 
 def visualize_images(images, y=None, image_size=200, border_size=0, fname="sprite.png"):

@@ -1,6 +1,6 @@
 import tensorflow as tf
 
-from optical_toolkit.core.deprocess_image import deprocess_image
+from optical_toolkit.utils.deprocess_image import deprocess_image
 
 
 def compute_loss(image, filter_index, feature_extractor):
