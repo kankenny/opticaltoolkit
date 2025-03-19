@@ -1,4 +1,5 @@
 import tensorflow as tf
+from tqdm import tqdm
 
 from optical_toolkit.utils.deprocess_image import deprocess_image
 
@@ -38,13 +39,15 @@ def generate_filter_patterns(layer, num_filters, img_sz, feature_extractor):
         num_filters = layer.filters
         num_filters = max(num_filters, 64)
 
-    for filter_index in range(num_filters):
-        print(f"Processing filter {filter_index}")
-        filter_index = tf.convert_to_tensor(filter_index, dtype=tf.int32)
-        image = deprocess_image(
-            generate_filter_pattern(filter_index, img_sz, feature_extractor)
-        )
-        all_images.append(image)
+    with tqdm(total=num_filters, desc="Gradient Ascent", unit="step", ncols=75, mininterval=0.1) as pbar:
+        for filter_index in range(num_filters):
+            pbar.set_description(f"Processing filter {filter_index}")
+            filter_index = tf.convert_to_tensor(filter_index, dtype=tf.int32)
+            image = deprocess_image(
+                generate_filter_pattern(filter_index, img_sz, feature_extractor)
+            )
+            all_images.append(image)
+        pbar.update(1)
 
     return all_images
 
