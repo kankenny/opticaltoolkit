@@ -49,7 +49,6 @@ def get_layer(model, layer_name):
             raise ValueError("No convolutional layers found in the model.")
 
         layer = random.choice(conv_layers)
-        layer_name = layer.name  # Update layer_name to the chosen layer's name
     else:
         layer = model.get_layer(name=layer_name)
 
