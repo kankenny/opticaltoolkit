@@ -1,7 +1,7 @@
-from optical_toolkit.insight.cnn_filters import display_filters
+from optical_toolkit.insight.cnn_filters import display_filters, display_model_filters
 
 
-def test_filters_from_pretrained_model():
+def test_filters_from_layer():
     model_name = "xception"
     dir_name = "examples/insights"
 
@@ -18,3 +18,11 @@ def test_filters_from_pretrained_model():
             layer_name=layer_name,
             output_path=f"{dir_name}/{layer_name}_layer_filters.png",
         )
+
+
+def test_filters_from_pretrained_model():
+    model_name = "xception"
+    dir_name = "examples/insights"
+
+    display_model_filters(
+        model_name, output_path=f"{dir_name}/{model_name}_filters.png")

@@ -53,3 +53,9 @@ def get_layer(model, layer_name):
         layer = model.get_layer(name=layer_name)
 
     return layer
+
+
+def get_conv_layers(model):
+    return [
+        layer for layer in model.layers if isinstance(layer, tf.keras.layers.Conv2D)
+    ]
