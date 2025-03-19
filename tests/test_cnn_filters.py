@@ -21,7 +21,7 @@ def test_filters_from_layer():
 
 
 def test_filters_from_pretrained_model():
-    model_name = "xception"
+    model_name = "efficientnetb0"
     dir_name = "examples/insights"
 
     display_model_filters(

@@ -21,6 +21,9 @@ def display_filters(model_path, layer_name=None, num_filters=16, output_path=Non
     model = instantiate_model(model_path)
     layer = get_layer(model, layer_name)
 
+    if layer.filters < num_filters:
+        num_filters = layer.filters
+
     feature_extractor = keras.Model(inputs=model.input, outputs=layer.output)
 
     IMG_SZ = 100
@@ -75,6 +78,9 @@ def display_model_filters(model_path, num_filters=16, output_path=None):
 
     for layer_name in selected_layer_names:
         layer = model.get_layer(layer_name)
+
+        if layer.filters < num_filters:
+            num_filters = layer.filters
 
         feature_extractor = keras.Model(
             inputs=model.input, outputs=layer.output)

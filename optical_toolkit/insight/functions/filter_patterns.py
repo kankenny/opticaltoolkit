@@ -6,7 +6,7 @@ from optical_toolkit.utils.deprocess_image import deprocess_image
 
 def compute_loss(image, filter_index, feature_extractor):
     activation = feature_extractor(image)
-    filter_activation = activation[:, 2:-2, 2:-2, filter_index]
+    filter_activation = activation[..., filter_index]
     return tf.reduce_mean(filter_activation)
 
 
@@ -36,14 +36,12 @@ def generate_filter_pattern(filter_index, img_sz, feature_extractor):
 def generate_filter_patterns(layer, num_filters, img_sz, feature_extractor):
     all_images = []
 
-    if layer.filters < num_filters:
-        num_filters = layer.filters
-        num_filters = max(num_filters, 64)
-
     LINE_LENGTH = 100
     border = '=' * LINE_LENGTH
     sub_border = '-' * LINE_LENGTH
     desc = "Gradient Ascent"
+
+    print()
 
     with tqdm(total=num_filters, desc=desc, unit="step", ncols=75, mininterval=0.1) as pbar:
         tqdm.write(f"{border}\n{desc.center(LINE_LENGTH)}\n{sub_border}\n")
@@ -56,6 +54,7 @@ def generate_filter_patterns(layer, num_filters, img_sz, feature_extractor):
             )
             all_images.append(image)
             pbar.update(1)
+
     print(f"\n{sub_border}\n")
 
     return all_images
