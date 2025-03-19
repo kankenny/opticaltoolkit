@@ -22,6 +22,9 @@ MED
 4. Simplify display_layers fn to output a single page summary
 5. Interface the displaying of all embeddings, possibly multithread
 6. Change imaging backend to matplotlib
+7. Support model path to be a tf pretrained model in cnn_filters fn (tf & keras format)
+8. Support model path to be a tf pretrained model in cnn_filters fn (tf & keras format)
+9. Use better optimizers
 
 ___________________________________________________________________________________________________________________
 
