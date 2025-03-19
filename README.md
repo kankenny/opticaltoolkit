@@ -12,7 +12,7 @@ pip install optical_toolkit
 ## Visualize
 
 - Visualize a dataset in a grid
-<!-- This section explains the introduction 
+<!-- 
 <p align="center" width="100%">
   <img src="examples/noise_image_grid_labeled.png" alt="dataset"/>
 </p>
@@ -25,8 +25,8 @@ from optical_toolkit.embeddings import get_embeddings
 
 X, y = load_digits()
 
-embeddings, fig_2d = get_embeddings(X, y, dims=2, embedding_type="tsne", return_plot=True)
-embeddings, fig_3d = get_embeddings(X, y, dims=3, embedding_type="tsne", return_plot=True)
+2d_embeddings, fig_2d = get_embeddings(X, y, dims=2, embedding_type="tsne", return_plot=True)
+3d_embeddings, fig_3d = get_embeddings(X, y, dims=3, embedding_type="tsne", return_plot=True)
 ```
 <p align="center" width="100%">
   <img src="examples/embeddings/2d_TSNE_embedding.png" alt="embedding2d" width="47.5%"/>
