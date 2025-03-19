@@ -24,7 +24,7 @@ MED
 6. Change imaging backend to matplotlib
 7. Support model path to be a tf pretrained model in cnn_filters fn (tf & keras format)
 8. Support model path to be a tf pretrained model in cnn_filters fn (tf & keras format)
-9. Use better optimizers
+9. Use optimizers instead of simple gradient ascent
 
 ___________________________________________________________________________________________________________________
 
