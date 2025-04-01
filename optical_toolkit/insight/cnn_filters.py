@@ -14,6 +14,7 @@ def display_filters(model_path, layer_name=None, num_filters=16, output_path=Non
         layer_name (str): The layer name respective to the given model
         num_filters (int): Number of filters to display in the layer
         output_path (str): Where to save the visualization
+        model_custom_objects (dict): A mapping of the custom objects if present
 
     Returns:
         None
@@ -47,6 +48,8 @@ def display_model_filters(model_path, num_filters=8, output_path=None, model_cus
                             model here: https://keras.io/api/applications/
         num_filters (int): Number of filters to display in the layer
         output_path (str): Where to save the visualization
+        model_custom_objects (dict): A mapping of the custom objects if present
+        custom_layer_prefix (str): Prefix of layers with convolutional blocks
 
     Returns:
         None
@@ -58,7 +61,7 @@ def display_model_filters(model_path, num_filters=8, output_path=None, model_cus
 
     num_layers = len(conv_layers)
 
-    layer_indices = layer_distribution(num_layers)
+    layer_indices = layer_distribution(num_layers, included_indices=None, select_topmost=True, select_bottommost=True)
     selected_layers = [conv_layers[i] for i in layer_indices]
 
     layer_filters = []
