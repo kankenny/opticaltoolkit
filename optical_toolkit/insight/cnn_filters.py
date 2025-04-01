@@ -67,16 +67,15 @@ def display_model_filters(model_path, num_filters=8, output_path=None, model_cus
     layer_filters = []
 
     for layer in selected_layers:
-        if layer.filters < num_filters:
-            num_filters = layer.filters
-
+        curr_layer_filters = layer.filters if layer.filters < num_filters else num_filters
+        
         feature_extractor = keras.Model(
             inputs=model.input, outputs=layer.output)
 
         filters = generate_filter_patterns(
-            layer, num_filters, img_sz, feature_extractor)
+            layer, curr_layer_filters, img_sz, feature_extractor)
 
-        stitched_filters = stitched_image(filters, num_filters, img_sz)
+        stitched_filters = stitched_image(filters, curr_layer_filters, img_sz)
         layer_filters.append(stitched_filters)
 
     layer_filters = concat_images(layer_filters, axis=0)
