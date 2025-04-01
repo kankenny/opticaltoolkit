@@ -11,7 +11,10 @@ from tensorflow.keras.applications import (
 )
 
 
-def instantiate_model(model_path):
+def instantiate_model(model_path, model_custom_objects):
+    if model_custom_objects is None:
+        model_custom_objects = {}
+        
     # Check if model_path corresponds to a pretrained model name
     pretrained_models = {
         "xception": Xception,
@@ -31,7 +34,8 @@ def instantiate_model(model_path):
     else:
         # Load the model from the specified path
         try:
-            model = tf.keras.models.load_model(model_path)
+            print(model_custom_objects)
+            model = tf.keras.models.load_model(model_path, custom_objects=model_custom_objects)
         except ValueError as e:
             raise ValueError(f"{e}: Model not found")
 

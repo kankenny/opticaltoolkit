@@ -5,12 +5,13 @@ from .functions.models_and_layers import instantiate_model, get_layer, get_conv_
 from .functions.stitched_image import stitched_image, concat_images
 
 
-def display_filters(model_path, layer_name=None, num_filters=16, output_path=None):
+def display_filters(model_path, layer_name=None, num_filters=16, output_path=None, model_custom_objects=None):
     """
         Displays the learned filters of a layer of a pretrained model.
 
         Parameters:
-            model_path (str): The path to the model
+            model_path (str): The path to the model or a name of a pretrained
+                              model here: https://keras.io/api/applications/
             layer_name (str): The layer name respective to the given model
             num_filters (int): Number of filters to display in the layer
             output_path (str): Where to save the visualization
@@ -18,7 +19,7 @@ def display_filters(model_path, layer_name=None, num_filters=16, output_path=Non
         Returns:
             None
     """
-    model = instantiate_model(model_path)
+    model = instantiate_model(model_path, model_custom_objects)
     layer = get_layer(model, layer_name)
 
     if layer.filters < num_filters:
@@ -26,6 +27,7 @@ def display_filters(model_path, layer_name=None, num_filters=16, output_path=Non
 
     feature_extractor = keras.Model(inputs=model.input, outputs=layer.output)
 
+    # custom models are incompatible with this (i.e., how do I make custom models input shape agnostic)
     IMG_SZ = 100
 
     filters = generate_filter_patterns(
@@ -39,20 +41,21 @@ def display_filters(model_path, layer_name=None, num_filters=16, output_path=Non
     keras.utils.save_img(output_path, stitched_filters)
 
 
-def display_model_filters(model_path, num_filters=16, output_path=None):
+def display_model_filters(model_path, num_filters=16, output_path=None, model_custom_objects=None):
     """
         Displays the learned filters of a pretrained model.
         The layers are automatically selected from bottom-mid-top level layers.
 
         Parameters:
-            model_path (str): The path to the model
+            model_path (str): The path to the model or a name of a pretrained
+                              model here: https://keras.io/api/applications/
             num_filters (int): Number of filters to display in the layer
             output_path (str): Where to save the visualization
 
         Returns:
             None
     """
-    model = instantiate_model(model_path)
+    model = instantiate_model(model_path, model_custom_objects)
     conv_layers = get_conv_layers(model)
     conv_layer_names = [conv_layer.name for conv_layer in conv_layers]
 
@@ -74,6 +77,7 @@ def display_model_filters(model_path, num_filters=16, output_path=None):
     selected_layer_names = [conv_layer_names[i] for i in layer_indices]
 
     layer_filters = []
+    # custom models are incompatible with this (i.e., how do I make custom models input shape agnostic)
     IMG_SZ = 100
 
     for layer_name in selected_layer_names:
