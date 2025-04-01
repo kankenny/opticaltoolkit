@@ -91,4 +91,4 @@ def test_filters_from_sample_pretrained_model():
 
 
     display_model_filters(
-        model_name, output_path=f"{dir_name}/svdnet_filters.png")
+        model_name, output_path=f"{dir_name}/svdnet_filters.png", custom_layer_prefix="residual")

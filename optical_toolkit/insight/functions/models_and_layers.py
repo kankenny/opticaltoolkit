@@ -1,5 +1,6 @@
 import tensorflow as tf
 import random
+import re
 from tensorflow.keras.applications import (
     VGG16,
     DenseNet121,
@@ -34,7 +35,6 @@ def instantiate_model(model_path, model_custom_objects):
     else:
         # Load the model from the specified path
         try:
-            print(model_custom_objects)
             model = tf.keras.models.load_model(
                 model_path, custom_objects=model_custom_objects)
         except ValueError as e:
@@ -43,7 +43,7 @@ def instantiate_model(model_path, model_custom_objects):
     return model
 
 
-def get_layer(model, layer_name):
+def get_conv_layer(model, layer_name):
     if layer_name is None:
         # Find all convolutional layers in the model
         conv_layers = [
@@ -60,10 +60,17 @@ def get_layer(model, layer_name):
     return layer
 
 
-def get_conv_layers(model):
-    return [
-        layer for layer in model.layers if isinstance(layer, tf.keras.layers.Conv2D)
-    ]
+def get_conv_layers(model, custom_layer_prefix):
+    pattern = r"^conv\w*$"
+    conv_layers = []
+
+    for layer in model.layers:
+        if isinstance(layer, tf.keras.layers.Conv2D):
+            conv_layers.append(layer)
+        elif custom_layer_prefix != "" and layer.name.startswith(custom_layer_prefix):
+            conv_layers.append(layer)
+
+    return conv_layers
 
 
 def infer_input_size(model):

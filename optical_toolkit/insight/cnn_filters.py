@@ -1,7 +1,7 @@
 from tensorflow import keras
 
 from .functions.filter_patterns import generate_filter_patterns
-from .functions.models_and_layers import instantiate_model, get_layer, get_conv_layers, infer_input_size
+from .functions.models_and_layers import instantiate_model, get_conv_layer, get_conv_layers, infer_input_size
 from .functions.stitched_image import stitched_image, concat_images
 
 
@@ -20,7 +20,7 @@ def display_filters(model_path, layer_name=None, num_filters=16, output_path=Non
     """
     model = instantiate_model(model_path, model_custom_objects)
     img_sz = infer_input_size(model)
-    layer = get_layer(model, layer_name)
+    layer = get_conv_layer(model, layer_name)
 
     if layer.filters < num_filters:
         num_filters = layer.filters
@@ -38,7 +38,7 @@ def display_filters(model_path, layer_name=None, num_filters=16, output_path=Non
     keras.utils.save_img(output_path, stitched_filters)
 
 
-def display_model_filters(model_path, num_filters=16, output_path=None, model_custom_objects=None):
+def display_model_filters(model_path, num_filters=8, output_path=None, model_custom_objects=None, custom_layer_prefix=""):
     """Displays the learned filters of a pretrained model.
        The layers are automatically selected from bottom-mid-top level layers.
 
@@ -53,31 +53,24 @@ def display_model_filters(model_path, num_filters=16, output_path=None, model_cu
     """
     model = instantiate_model(model_path, model_custom_objects)
     img_sz = infer_input_size(model)
-    conv_layers = get_conv_layers(model)
+    conv_layers = get_conv_layers(model, custom_layer_prefix)
     conv_layer_names = [conv_layer.name for conv_layer in conv_layers]
 
-    # Percentiles that represent bot-mid-top level layers
-    BOT_PERC = [0.15, 0.35]
-    MID_PERC = [0.55, 0.65]
-    TOP_PERC = [0.75, 0.95]
-
-    percentiles = BOT_PERC + MID_PERC + TOP_PERC
-
     num_layers = len(conv_layers)
+
+    percentiles = [p / 10 for p in range(1, 10)]
 
     if num_layers < len(percentiles):
         percentiles = percentiles[:num_layers]
 
-    layer_indices = [int(p * (num_layers - 1)) for p in percentiles]
-
-    # Select layers based on computed indices
-    selected_layer_names = [conv_layer_names[i] for i in layer_indices]
+    percentiles_to_idx = [int(p * (num_layers - 1)) for p in percentiles]
+    layer_indices = [0, 1] + percentiles_to_idx + [len(percentiles) - 2, len(percentiles) - 1]
+    layer_indices = sorted(set(layer_indices))
+    selected_layers = [conv_layers[i] for i in layer_indices]
 
     layer_filters = []
 
-    for layer_name in selected_layer_names:
-        layer = model.get_layer(layer_name)
-
+    for layer in selected_layers:
         if layer.filters < num_filters:
             num_filters = layer.filters
 
