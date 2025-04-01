@@ -73,6 +73,28 @@ def get_conv_layers(model, custom_layer_prefix):
     return conv_layers
 
 
+def layer_distribution(num_layers, included_indices=None, select_topmost=True, select_bottommost=True):
+    percentiles = [p / 10 for p in range(1, 10)]
+
+    layer_indices = [int(p * (num_layers - 1)) for p in percentiles]
+
+    if included_indices is not None:
+        layer_indices += included_indices
+    if select_topmost:
+        layer_indices = [0, 1] + layer_indices
+    if select_bottommost:
+        layer_indices = layer_indices + [len(percentiles) - 2, len(percentiles) - 1]
+
+    layer_indices = sorted(set(layer_indices))
+
+    if num_layers < len(layer_indices):
+        layer_indices = layer_indices[:num_layers]
+
+    return layer_indices
+
+
+
+
 def infer_input_size(model):
     size = model.inputs[0].shape[1]
     return size if size else 100

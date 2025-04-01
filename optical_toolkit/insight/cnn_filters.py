@@ -1,7 +1,7 @@
 from tensorflow import keras
 
 from .functions.filter_patterns import generate_filter_patterns
-from .functions.models_and_layers import instantiate_model, get_conv_layer, get_conv_layers, infer_input_size
+from .functions.models_and_layers import instantiate_model, get_conv_layer, get_conv_layers, infer_input_size, layer_distribution
 from .functions.stitched_image import stitched_image, concat_images
 
 
@@ -58,14 +58,7 @@ def display_model_filters(model_path, num_filters=8, output_path=None, model_cus
 
     num_layers = len(conv_layers)
 
-    percentiles = [p / 10 for p in range(1, 10)]
-
-    if num_layers < len(percentiles):
-        percentiles = percentiles[:num_layers]
-
-    percentiles_to_idx = [int(p * (num_layers - 1)) for p in percentiles]
-    layer_indices = [0, 1] + percentiles_to_idx + [len(percentiles) - 2, len(percentiles) - 1]
-    layer_indices = sorted(set(layer_indices))
+    layer_indices = layer_distribution(num_layers)
     selected_layers = [conv_layers[i] for i in layer_indices]
 
     layer_filters = []
