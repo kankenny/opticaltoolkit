@@ -1,7 +1,7 @@
 from tensorflow import keras
 
 from .functions.filter_patterns import generate_filter_patterns
-from .functions.models_and_layers import instantiate_model, get_layer, get_conv_layers
+from .functions.models_and_layers import instantiate_model, get_layer, get_conv_layers, infer_input_size
 from .functions.stitched_image import stitched_image, concat_images
 
 
@@ -19,6 +19,7 @@ def display_filters(model_path, layer_name=None, num_filters=16, output_path=Non
         None
     """
     model = instantiate_model(model_path, model_custom_objects)
+    img_sz = infer_input_size(model)
     layer = get_layer(model, layer_name)
 
     if layer.filters < num_filters:
@@ -26,13 +27,10 @@ def display_filters(model_path, layer_name=None, num_filters=16, output_path=Non
 
     feature_extractor = keras.Model(inputs=model.input, outputs=layer.output)
 
-    # custom models are incompatible with this (i.e., how do I make custom models input shape agnostic)
-    IMG_SZ = 100
-
     filters = generate_filter_patterns(
-        layer, num_filters, IMG_SZ, feature_extractor)
+        layer, num_filters, img_sz, feature_extractor)
 
-    stitched_filters = stitched_image(filters, num_filters, IMG_SZ)
+    stitched_filters = stitched_image(filters, num_filters, img_sz)
 
     if output_path is None:
         output_path = f"{layer.name}_layer_filters.png"
@@ -54,6 +52,7 @@ def display_model_filters(model_path, num_filters=16, output_path=None, model_cu
         None
     """
     model = instantiate_model(model_path, model_custom_objects)
+    img_sz = infer_input_size(model)
     conv_layers = get_conv_layers(model)
     conv_layer_names = [conv_layer.name for conv_layer in conv_layers]
 
@@ -75,8 +74,6 @@ def display_model_filters(model_path, num_filters=16, output_path=None, model_cu
     selected_layer_names = [conv_layer_names[i] for i in layer_indices]
 
     layer_filters = []
-    # custom models are incompatible with this (i.e., how do I make custom models input shape agnostic)
-    IMG_SZ = 100
 
     for layer_name in selected_layer_names:
         layer = model.get_layer(layer_name)
@@ -88,9 +85,9 @@ def display_model_filters(model_path, num_filters=16, output_path=None, model_cu
             inputs=model.input, outputs=layer.output)
 
         filters = generate_filter_patterns(
-            layer, num_filters, IMG_SZ, feature_extractor)
+            layer, num_filters, img_sz, feature_extractor)
 
-        stitched_filters = stitched_image(filters, num_filters, IMG_SZ)
+        stitched_filters = stitched_image(filters, num_filters, img_sz)
         layer_filters.append(stitched_filters)
 
     layer_filters = concat_images(layer_filters, axis=0)

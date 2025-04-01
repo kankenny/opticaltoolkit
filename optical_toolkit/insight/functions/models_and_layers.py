@@ -14,7 +14,7 @@ from tensorflow.keras.applications import (
 def instantiate_model(model_path, model_custom_objects):
     if model_custom_objects is None:
         model_custom_objects = {}
-        
+
     # Check if model_path corresponds to a pretrained model name
     pretrained_models = {
         "xception": Xception,
@@ -35,7 +35,8 @@ def instantiate_model(model_path, model_custom_objects):
         # Load the model from the specified path
         try:
             print(model_custom_objects)
-            model = tf.keras.models.load_model(model_path, custom_objects=model_custom_objects)
+            model = tf.keras.models.load_model(
+                model_path, custom_objects=model_custom_objects)
         except ValueError as e:
             raise ValueError(f"{e}: Model not found")
 
@@ -63,3 +64,8 @@ def get_conv_layers(model):
     return [
         layer for layer in model.layers if isinstance(layer, tf.keras.layers.Conv2D)
     ]
+
+
+def infer_input_size(model):
+    size = model.inputs[0].shape[1]
+    return size if size else 100
