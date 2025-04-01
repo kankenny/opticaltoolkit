@@ -61,7 +61,6 @@ def get_conv_layer(model, layer_name):
 
 
 def get_conv_layers(model, custom_layer_prefix):
-    pattern = r"^conv\w*$"
     conv_layers = []
 
     for layer in model.layers:
