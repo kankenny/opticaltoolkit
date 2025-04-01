@@ -6,18 +6,17 @@ from .functions.stitched_image import stitched_image, concat_images
 
 
 def display_filters(model_path, layer_name=None, num_filters=16, output_path=None, model_custom_objects=None):
-    """
-        Displays the learned filters of a layer of a pretrained model.
+    """Displays the learned filters of a layer of a pretrained model.
 
-        Parameters:
-            model_path (str): The path to the model or a name of a pretrained
-                              model here: https://keras.io/api/applications/
-            layer_name (str): The layer name respective to the given model
-            num_filters (int): Number of filters to display in the layer
-            output_path (str): Where to save the visualization
+    Args:
+        model_path (str): The path to the model or a name of a pretrained
+                          model here: https://keras.io/api/applications/
+        layer_name (str): The layer name respective to the given model
+        num_filters (int): Number of filters to display in the layer
+        output_path (str): Where to save the visualization
 
-        Returns:
-            None
+    Returns:
+        None
     """
     model = instantiate_model(model_path, model_custom_objects)
     layer = get_layer(model, layer_name)
@@ -42,18 +41,17 @@ def display_filters(model_path, layer_name=None, num_filters=16, output_path=Non
 
 
 def display_model_filters(model_path, num_filters=16, output_path=None, model_custom_objects=None):
-    """
-        Displays the learned filters of a pretrained model.
-        The layers are automatically selected from bottom-mid-top level layers.
+    """Displays the learned filters of a pretrained model.
+       The layers are automatically selected from bottom-mid-top level layers.
 
-        Parameters:
-            model_path (str): The path to the model or a name of a pretrained
-                              model here: https://keras.io/api/applications/
-            num_filters (int): Number of filters to display in the layer
-            output_path (str): Where to save the visualization
+    Args:
+        model_path (str): The path to the model or a name of a pretrained
+                            model here: https://keras.io/api/applications/
+        num_filters (int): Number of filters to display in the layer
+        output_path (str): Where to save the visualization
 
-        Returns:
-            None
+    Returns:
+        None
     """
     model = instantiate_model(model_path, model_custom_objects)
     conv_layers = get_conv_layers(model)
