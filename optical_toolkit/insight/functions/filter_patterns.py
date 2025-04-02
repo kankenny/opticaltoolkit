@@ -56,7 +56,7 @@ def generate_filter_patterns(layer, num_filters, img_sz, feature_extractor):
                 generate_filter_pattern(filter_index, img_sz, feature_extractor)
             )
             all_images.append(image)
-            
+
             pbar.update(1)
 
     print(f"\n{sub_border}\n")

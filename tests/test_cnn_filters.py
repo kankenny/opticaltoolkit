@@ -1,6 +1,5 @@
 from pathlib import Path
 
-
 from optical_toolkit.insight.cnn_filters import display_filters, display_model_filters
 
 
@@ -34,8 +33,7 @@ def test_filters_from_pretrained_model():
     output_path = f"{dir_name}/mock_{model_name}_filters.png"
 
     display_model_filters(
-        model_name, output_path=output_path, num_filters=2,
-        layer_name_preference="_se_"
+        model_name, output_path=output_path, num_filters=2, layer_name_preference="_se_"
     )
     Path(output_path).unlink(missing_ok=True)
 
