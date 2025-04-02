@@ -71,6 +71,26 @@ display_model_filters(model=model_name)
     <img src="examples/insights/xception_filters.png" alt="model_filters"/>
 </p>
 
+- Visualize the filters of your custom CNN with custom objects
+```python
+import keras
+
+model_name = "examples/custom_models/svdnet.keras"
+dir_name = "examples/insights"
+
+@keras.saving.register_keras_serializable()
+class ResidualConvBlock(keras.layers.Layer):
+    ...
+
+display_model_filters(
+    model_name,
+    custom_layer_prefix="residual",
+)
+```
+<p align="center" width="100%">
+    <img src="examples/insights/svdnet_filters.png" alt="model_filters"/>
+</p>
+
 ## Analyze
 - Analyze 'highly confident' errors in classification tasks
     - Confusion matrix normalized by row/column
