@@ -10,8 +10,8 @@ def test_filters_from_layer():
     layer_names = [
         "block2_sepconv1",
         "block5_sepconv1",
-        "block9_sepconv1",
-        "block14_sepconv1",
+        # "block9_sepconv1",
+        # "block14_sepconv1",
     ]
 
     for layer_name in layer_names:

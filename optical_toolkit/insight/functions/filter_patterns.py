@@ -15,20 +15,26 @@ def gradient_ascent_step(image, filter_index, learning_rate, feature_extractor):
     with tf.GradientTape() as tape:
         tape.watch(image)
         loss = compute_loss(image, filter_index, feature_extractor)
+
     grads = tape.gradient(loss, image)
     grads = tf.math.l2_normalize(grads)
+
     image += learning_rate * grads
+
     return image
 
 
 def generate_filter_pattern(filter_index, img_sz, feature_extractor):
     iterations = 30
     learning_rate = 10.0
+
     image = tf.random.uniform(minval=0.4, maxval=0.6, shape=(1, img_sz, img_sz, 3))
+
     for i in range(iterations):
         image = gradient_ascent_step(
             image, filter_index, learning_rate, feature_extractor
         )
+
     return image[0].numpy()
 
 
@@ -63,5 +69,35 @@ def generate_filter_patterns(layer, num_filters, img_sz, feature_extractor):
 
     return all_images
 
+
+#######################################################################
+# @tf.function
+# def gradient_ascent_step(image, filter_index, feature_extractor):
+#     with tf.GradientTape() as tape:
+#         tape.watch(image)  # Watch the image tensor
+#         loss = compute_loss(image, filter_index, feature_extractor)
+
+#     grads = tape.gradient(loss, image)
+#     grads = tf.math.l2_normalize(grads)
+
+#     return grads
+
+
+# def generate_filter_pattern(filter_index, img_sz, feature_extractor):
+#     iterations = 15
+#     learning_rate = 0.02
+
+#     optimizer = tf.keras.optimizers.Adam(learning_rate=learning_rate)
+
+#     image = tf.random.uniform(minval=0.4, maxval=0.6, shape=(1, img_sz, img_sz, 3))
+
+#     image = tf.Variable(image)
+
+#     for i in range(iterations):
+#         grads = gradient_ascent_step(image, filter_index, feature_extractor)
+#         optimizer.apply_gradients([(grads, image)])
+
+#     return image[0].numpy()
+#######################################################################
 
 __all__ = [generate_filter_patterns]

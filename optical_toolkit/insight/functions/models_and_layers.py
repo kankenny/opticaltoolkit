@@ -64,13 +64,12 @@ def get_conv_layers(model, custom_layer_prefix, layer_name_preference):
         pattern = None
 
     for layer in model.layers:
-        if isinstance(layer, tf.keras.layers.Conv2D):
-            if pattern and pattern.match(layer.name):
-                conv_layers.append(layer)
-            elif custom_layer_prefix and layer.name.startswith(custom_layer_prefix):
-                conv_layers.append(layer)
-            else:
-                conv_layers.append(layer)
+        if pattern and pattern.match(layer.name):
+            conv_layers.append(layer)
+        elif custom_layer_prefix and layer.name.startswith(custom_layer_prefix):
+            conv_layers.append(layer)
+        elif isinstance(layer, tf.keras.layers.Conv2D):
+            conv_layers.append(layer)
 
     return conv_layers
 
