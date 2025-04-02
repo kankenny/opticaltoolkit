@@ -38,21 +38,25 @@ def generate_filter_patterns(layer, num_filters, img_sz, feature_extractor):
     LINE_LENGTH = 100
     border = "=" * LINE_LENGTH
     sub_border = "-" * LINE_LENGTH
-    desc = "Gradient Ascent"
+    desc = "Gradient Ascent on Layer"
 
     print()
 
     with tqdm(
         total=num_filters, desc=desc, unit="step", ncols=75, mininterval=0.1
     ) as pbar:
-        tqdm.write(f"{border}\n{desc} on Layer: {layer.name}\n{sub_border}\n")
+        tqdm.write(f"{border}\n{desc}: {layer.name}\n{sub_border}\n")
         for filter_index in range(num_filters):
             pbar.set_description(f"Processing filter {filter_index}")
+
             filter_index = tf.convert_to_tensor(filter_index, dtype=tf.int32)
+            img_sz = tf.convert_to_tensor(img_sz, dtype=tf.int32)
+
             image = deprocess_image(
                 generate_filter_pattern(filter_index, img_sz, feature_extractor)
             )
             all_images.append(image)
+            
             pbar.update(1)
 
     print(f"\n{sub_border}\n")
