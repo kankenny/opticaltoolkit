@@ -72,19 +72,24 @@ def get_conv_layers(model, custom_layer_prefix):
     return conv_layers
 
 
-def layer_distribution(num_layers, included_indices=None, select_topmost=True, select_bottommost=True):
-    percentiles = [p / 10 for p in range(1, 10)]
-
-    layer_indices = [int(p * (num_layers - 1)) for p in percentiles]
+def layer_distribution(num_layers, format="hierarchical", included_indices=None, select_topmost=True, select_bottommost=True):
+    if format == "hierarchical":
+        layer_indices = _hierarchical_layers(num_layers)
+    elif format == "constant":
+        layer_indices = _constantly_inc_layers(num_layers)
+    elif format == "all":
+        layer_indices = _all_layers(num_layers)
+    else:
+        ValueError(f"format={format} is not supported. Try 'hierarchical', 'constant', or 'all'")
 
     if included_indices is not None:
-        layer_indices += included_indices
+        layer_indices = tf.concat([layer_indices, tf.convert_to_tensor(included_indices, dtype=tf.int32)], axis=0)
     if select_topmost:
-        layer_indices = [0, 1] + layer_indices
+        layer_indices = tf.concat([[0, 1], layer_indices], axis=0)
     if select_bottommost:
-        layer_indices = layer_indices + [len(percentiles) - 2, len(percentiles) - 1]
+        layer_indices = tf.concat([layer_indices, [num_layers - 2, num_layers - 1]], axis=0)
 
-    layer_indices = sorted(set(layer_indices))
+    layer_indices = tf.sort(tf.unique(layer_indices).y)
 
     if num_layers < len(layer_indices):
         layer_indices = layer_indices[:num_layers]
@@ -92,6 +97,31 @@ def layer_distribution(num_layers, included_indices=None, select_topmost=True, s
     return layer_indices
 
 
+def _hierarchical_layers(num_layers):
+    bot_percentiles = tf.linspace(0.0, 0.2, 2)
+    mid_percentiles = tf.linspace(0.2, 0.5, 4)
+    top_percentiles = tf.linspace(0.5, 0.7, 2)
+
+    percentiles = tf.concat([bot_percentiles, mid_percentiles, top_percentiles], axis=0)
+
+    layer_indices = tf.cast(percentiles * (num_layers - 1), tf.int32)
+    
+    return layer_indices
+
+
+def _constantly_inc_layers(num_layers):
+    percentiles = tf.linspace(0., 1., 10)
+
+    layer_indices = tf.cast(percentiles * (num_layers - 1), tf.int32)
+
+    return layer_indices
+
+def _all_layers(num_layers):
+    percentiles = tf.linspace(0., 1., num_layers)
+
+    layer_indices = tf.cast(percentiles * (num_layers - 1), tf.int32)
+
+    return layer_indices
 
 
 def infer_input_size(model):

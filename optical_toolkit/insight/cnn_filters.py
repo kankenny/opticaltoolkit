@@ -5,7 +5,7 @@ from .functions.models_and_layers import instantiate_model, get_conv_layer, get_
 from .functions.stitched_image import stitched_image, concat_images
 
 
-def display_filters(model_path, layer_name=None, num_filters=16, output_path=None, model_custom_objects=None):
+def display_filters(model_path, layer_name=None, num_filters=32, output_path=None, model_custom_objects=None):
     """Displays the learned filters of a layer of a pretrained model.
 
     Args:
@@ -39,7 +39,7 @@ def display_filters(model_path, layer_name=None, num_filters=16, output_path=Non
     keras.utils.save_img(output_path, stitched_filters)
 
 
-def display_model_filters(model_path, num_filters=8, output_path=None, model_custom_objects=None, custom_layer_prefix=""):
+def display_model_filters(model_path, num_filters=16, output_path=None, model_custom_objects=None, custom_layer_prefix=""):
     """Displays the learned filters of a pretrained model.
        The layers are automatically selected from bottom-mid-top level layers.
 
@@ -68,7 +68,8 @@ def display_model_filters(model_path, num_filters=8, output_path=None, model_cus
 
     for layer in selected_layers:
         curr_layer_filters = layer.filters if layer.filters < num_filters else num_filters
-        
+        print(curr_layer_filters)
+
         feature_extractor = keras.Model(
             inputs=model.input, outputs=layer.output)
 

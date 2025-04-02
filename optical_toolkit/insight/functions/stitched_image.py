@@ -34,30 +34,41 @@ def concat_images(images, axis=1):
     # Ensure all images have the same number of channels
     max_channels = max(img.shape[-1] if img.ndim == 3 else 1 for img in images)
     images = [
-        img if (img.ndim == 3 and img.shape[-1] ==
-                max_channels) else np.dstack([img] * max_channels)
+        img if (img.ndim == 3 and img.shape[-1] == max_channels) 
+        else np.dstack([img] * max_channels)
         for img in images
     ]
 
+    # Find max height and width
+    max_height = max(img.shape[0] for img in images)
+    max_width = max(img.shape[1] for img in images)
+
+    padded_images = []
+    for img in images:
+        h, w = img.shape[:2]
+        
+        # Calculate padding sizes
+        pad_top = (max_height - h) // 2
+        pad_bottom = max_height - h - pad_top
+        pad_left = (max_width - w) // 2
+        pad_right = max_width - w - pad_left
+
+        # Pad the image to be centered
+        padded_image = np.pad(img, ((pad_top, pad_bottom), (pad_left, pad_right), (0, 0)), 
+                              mode='constant', constant_values=0)
+        padded_images.append(padded_image)
+
     # Add margin between images horizontally or vertically
     if axis == 1:  # Horizontal concatenation
-        padded_images = []
-        for img in images:
-            if len(img.shape) == 2:  # If grayscale, convert to 3 channels
-                img = np.stack([img] * 3, axis=-1)
-            # Add margin by padding to the right
-            padded_image = np.pad(img, ((0, 0), (0, margin), (0, 0)),
-                                  mode='constant', constant_values=0)
-            padded_images.append(padded_image)
-        return np.concatenate(padded_images, axis=1)
+        margin_pad = np.zeros((max_height, margin, max_channels), dtype=np.uint8)
+        result = np.concatenate([padded_images[i] if i == len(padded_images) - 1 else 
+                                 np.concatenate([padded_images[i], margin_pad], axis=1) 
+                                 for i in range(len(padded_images))], axis=1)
 
     elif axis == 0:  # Vertical concatenation
-        padded_images = []
-        for img in images:
-            if len(img.shape) == 2:  # If grayscale, convert to 3 channels
-                img = np.stack([img] * 3, axis=-1)
-            # Add margin by padding to the bottom
-            padded_image = np.pad(img, ((0, margin), (0, 0), (0, 0)),
-                                  mode='constant', constant_values=0)
-            padded_images.append(padded_image)
-        return np.concatenate(padded_images, axis=0)
+        margin_pad = np.zeros((margin, max_width, max_channels), dtype=np.uint8)
+        result = np.concatenate([padded_images[i] if i == len(padded_images) - 1 else 
+                                 np.concatenate([padded_images[i], margin_pad], axis=0) 
+                                 for i in range(len(padded_images))], axis=0)
+
+    return result

@@ -25,7 +25,7 @@ def test_filters_from_pretrained_model():
     dir_name = "examples/insights"
 
     display_model_filters(
-        model_name, output_path=f"{dir_name}/{model_name}_filters.png")
+        model_name, output_path=f"{dir_name}/{model_name}_filters.png", num_filters=8)
 
 
 def test_filters_from_sample_pretrained_model():
@@ -91,4 +91,4 @@ def test_filters_from_sample_pretrained_model():
 
 
     display_model_filters(
-        model_name, output_path=f"{dir_name}/svdnet_filters.png", custom_layer_prefix="residual")
+        model_name, output_path=f"{dir_name}/svdnet_filters.png", custom_layer_prefix="residual", num_filters=8)
