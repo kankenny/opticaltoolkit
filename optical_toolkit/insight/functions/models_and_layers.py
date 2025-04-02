@@ -1,15 +1,9 @@
-import tensorflow as tf
 import random
 import re
-from tensorflow.keras.applications import (
-    VGG16,
-    DenseNet121,
-    EfficientNetB0,
-    InceptionV3,
-    MobileNet,
-    ResNet50,
-    Xception,
-)
+
+import tensorflow as tf
+from tensorflow.keras.applications import (VGG16, DenseNet121, EfficientNetB0,
+                                           InceptionV3, MobileNet, ResNet50, Xception)
 
 
 def instantiate_model(model_path, model_custom_objects):
@@ -36,7 +30,8 @@ def instantiate_model(model_path, model_custom_objects):
         # Load the model from the specified path
         try:
             model = tf.keras.models.load_model(
-                model_path, custom_objects=model_custom_objects)
+                model_path, custom_objects=model_custom_objects
+            )
         except ValueError as e:
             raise ValueError(f"{e}: Model not found")
 
@@ -72,7 +67,13 @@ def get_conv_layers(model, custom_layer_prefix):
     return conv_layers
 
 
-def layer_distribution(num_layers, format="hierarchical", included_indices=None, select_topmost=True, select_bottommost=True):
+def layer_distribution(
+    num_layers,
+    format="hierarchical",
+    included_indices=None,
+    select_topmost=True,
+    select_bottommost=True,
+):
     if format == "hierarchical":
         layer_indices = _hierarchical_layers(num_layers)
     elif format == "constant":
@@ -80,14 +81,21 @@ def layer_distribution(num_layers, format="hierarchical", included_indices=None,
     elif format == "all":
         layer_indices = _all_layers(num_layers)
     else:
-        ValueError(f"format={format} is not supported. Try 'hierarchical', 'constant', or 'all'")
+        ValueError(
+            f"format={format} is not supported. Try 'hierarchical', 'constant', or 'all'"
+        )
 
     if included_indices is not None:
-        layer_indices = tf.concat([layer_indices, tf.convert_to_tensor(included_indices, dtype=tf.int32)], axis=0)
+        layer_indices = tf.concat(
+            [layer_indices, tf.convert_to_tensor(included_indices, dtype=tf.int32)],
+            axis=0,
+        )
     if select_topmost:
         layer_indices = tf.concat([[0, 1], layer_indices], axis=0)
     if select_bottommost:
-        layer_indices = tf.concat([layer_indices, [num_layers - 2, num_layers - 1]], axis=0)
+        layer_indices = tf.concat(
+            [layer_indices, [num_layers - 2, num_layers - 1]], axis=0
+        )
 
     layer_indices = tf.sort(tf.unique(layer_indices).y)
 
@@ -105,19 +113,20 @@ def _hierarchical_layers(num_layers):
     percentiles = tf.concat([bot_percentiles, mid_percentiles, top_percentiles], axis=0)
 
     layer_indices = tf.cast(percentiles * (num_layers - 1), tf.int32)
-    
+
     return layer_indices
 
 
 def _constantly_inc_layers(num_layers):
-    percentiles = tf.linspace(0., 1., 10)
+    percentiles = tf.linspace(0.0, 1.0, 10)
 
     layer_indices = tf.cast(percentiles * (num_layers - 1), tf.int32)
 
     return layer_indices
 
+
 def _all_layers(num_layers):
-    percentiles = tf.linspace(0., 1., num_layers)
+    percentiles = tf.linspace(0.0, 1.0, num_layers)
 
     layer_indices = tf.cast(percentiles * (num_layers - 1), tf.int32)
 

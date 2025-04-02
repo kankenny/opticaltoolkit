@@ -1,14 +1,23 @@
 import os
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3' 
+
+os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
 
 from tensorflow import keras
 
 from .functions.filter_patterns import generate_filter_patterns
-from .functions.models_and_layers import instantiate_model, get_conv_layer, get_conv_layers, infer_input_size, layer_distribution
-from .functions.stitched_image import stitched_image, concat_images
+from .functions.models_and_layers import (get_conv_layer, get_conv_layers,
+                                          infer_input_size, instantiate_model,
+                                          layer_distribution)
+from .functions.stitched_image import concat_images, stitched_image
 
 
-def display_filters(model_path, layer_name=None, num_filters=32, output_path=None, model_custom_objects=None):
+def display_filters(
+    model_path,
+    layer_name=None,
+    num_filters=32,
+    output_path=None,
+    model_custom_objects=None,
+):
     """Displays the learned filters of a layer of a pretrained model.
 
     Args:
@@ -31,8 +40,7 @@ def display_filters(model_path, layer_name=None, num_filters=32, output_path=Non
 
     feature_extractor = keras.Model(inputs=model.input, outputs=layer.output)
 
-    filters = generate_filter_patterns(
-        layer, num_filters, img_sz, feature_extractor)
+    filters = generate_filter_patterns(layer, num_filters, img_sz, feature_extractor)
 
     stitched_filters = stitched_image(filters, num_filters, img_sz)
 
@@ -42,7 +50,14 @@ def display_filters(model_path, layer_name=None, num_filters=32, output_path=Non
     keras.utils.save_img(output_path, stitched_filters)
 
 
-def display_model_filters(model_path, num_filters=16, output_path=None, model_custom_objects=None, custom_layer_prefix="", dist_format="hierarchical"):
+def display_model_filters(
+    model_path,
+    num_filters=16,
+    output_path=None,
+    model_custom_objects=None,
+    custom_layer_prefix="",
+    dist_format="hierarchical",
+):
     """Displays the learned filters of a pretrained model.
        The layers are automatically selected from bottom-mid-top level layers.
 
@@ -53,7 +68,7 @@ def display_model_filters(model_path, num_filters=16, output_path=None, model_cu
         output_path (str): Where to save the visualization
         model_custom_objects (dict): A mapping of the custom objects if present
         custom_layer_prefix (str): Prefix of layers with convolutional blocks
-        dist_format (str): The format in which to sample layer indices -- 
+        dist_format (str): The format in which to sample layer indices --
                            one of {"hierarchical", "constant", "all"}
 
     Returns:
@@ -66,20 +81,28 @@ def display_model_filters(model_path, num_filters=16, output_path=None, model_cu
 
     num_layers = len(conv_layers)
 
-    layer_indices = layer_distribution(num_layers, included_indices=None, select_topmost=True, select_bottommost=True, format=dist_format)
+    layer_indices = layer_distribution(
+        num_layers,
+        included_indices=None,
+        select_topmost=True,
+        select_bottommost=True,
+        format=dist_format,
+    )
     selected_layers = [conv_layers[i] for i in layer_indices]
 
     layer_filters = []
 
     for layer in selected_layers:
-        curr_layer_filters = layer.filters if layer.filters < num_filters else num_filters
+        curr_layer_filters = (
+            layer.filters if layer.filters < num_filters else num_filters
+        )
         print(curr_layer_filters)
 
-        feature_extractor = keras.Model(
-            inputs=model.input, outputs=layer.output)
+        feature_extractor = keras.Model(inputs=model.input, outputs=layer.output)
 
         filters = generate_filter_patterns(
-            layer, curr_layer_filters, img_sz, feature_extractor)
+            layer, curr_layer_filters, img_sz, feature_extractor
+        )
 
         stitched_filters = stitched_image(filters, curr_layer_filters, img_sz)
         layer_filters.append(stitched_filters)

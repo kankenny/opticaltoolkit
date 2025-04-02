@@ -24,8 +24,7 @@ def gradient_ascent_step(image, filter_index, learning_rate, feature_extractor):
 def generate_filter_pattern(filter_index, img_sz, feature_extractor):
     iterations = 30
     learning_rate = 10.0
-    image = tf.random.uniform(minval=0.4, maxval=0.6,
-                              shape=(1, img_sz, img_sz, 3))
+    image = tf.random.uniform(minval=0.4, maxval=0.6, shape=(1, img_sz, img_sz, 3))
     for i in range(iterations):
         image = gradient_ascent_step(
             image, filter_index, learning_rate, feature_extractor
@@ -37,20 +36,21 @@ def generate_filter_patterns(layer, num_filters, img_sz, feature_extractor):
     all_images = []
 
     LINE_LENGTH = 100
-    border = '=' * LINE_LENGTH
-    sub_border = '-' * LINE_LENGTH
+    border = "=" * LINE_LENGTH
+    sub_border = "-" * LINE_LENGTH
     desc = "Gradient Ascent"
 
     print()
 
-    with tqdm(total=num_filters, desc=desc, unit="step", ncols=75, mininterval=0.1) as pbar:
+    with tqdm(
+        total=num_filters, desc=desc, unit="step", ncols=75, mininterval=0.1
+    ) as pbar:
         tqdm.write(f"{border}\n{desc.center(LINE_LENGTH)}\n{sub_border}\n")
         for filter_index in range(num_filters):
             pbar.set_description(f"Processing filter {filter_index}")
             filter_index = tf.convert_to_tensor(filter_index, dtype=tf.int32)
             image = deprocess_image(
-                generate_filter_pattern(
-                    filter_index, img_sz, feature_extractor)
+                generate_filter_pattern(filter_index, img_sz, feature_extractor)
             )
             all_images.append(image)
             pbar.update(1)

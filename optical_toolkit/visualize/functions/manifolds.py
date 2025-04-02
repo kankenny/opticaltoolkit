@@ -1,12 +1,7 @@
 from sklearn.decomposition import TruncatedSVD
 from sklearn.ensemble import RandomTreesEmbedding
-from sklearn.manifold import (
-    MDS,
-    TSNE,
-    Isomap,
-    LocallyLinearEmbedding,
-    SpectralEmbedding,
-)
+from sklearn.manifold import (MDS, TSNE, Isomap, LocallyLinearEmbedding,
+                              SpectralEmbedding)
 from sklearn.neighbors import NeighborhoodComponentsAnalysis
 from sklearn.pipeline import make_pipeline
 from sklearn.random_projection import SparseRandomProjection

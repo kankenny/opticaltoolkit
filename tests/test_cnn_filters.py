@@ -25,7 +25,8 @@ def test_filters_from_pretrained_model():
     dir_name = "examples/insights"
 
     display_model_filters(
-        model_name, output_path=f"{dir_name}/{model_name}_filters.png", num_filters=8)
+        model_name, output_path=f"{dir_name}/{model_name}_filters.png", num_filters=8
+    )
 
 
 def test_filters_from_sample_pretrained_model():
@@ -48,13 +49,34 @@ def test_filters_from_sample_pretrained_model():
             self.strides = strides
             self.activation_fn = keras.activations.get(activation)
 
-            self.conv1 = keras.layers.Conv2D(filters, kernel_size=3, strides=strides, padding="same", kernel_initializer="he_normal", use_bias=False)
+            self.conv1 = keras.layers.Conv2D(
+                filters,
+                kernel_size=3,
+                strides=strides,
+                padding="same",
+                kernel_initializer="he_normal",
+                use_bias=False,
+            )
             self.bn1 = keras.layers.BatchNormalization()
-            self.conv2 = keras.layers.Conv2D(filters, kernel_size=3, strides=1, padding="same", kernel_initializer="he_normal", use_bias=False)
+            self.conv2 = keras.layers.Conv2D(
+                filters,
+                kernel_size=3,
+                strides=1,
+                padding="same",
+                kernel_initializer="he_normal",
+                use_bias=False,
+            )
             self.bn2 = keras.layers.BatchNormalization()
 
             if strides > 1:
-                self.skip_conv = keras.layers.Conv2D(filters, kernel_size=1, strides=strides, padding="same", kernel_initializer="he_normal", use_bias=False)
+                self.skip_conv = keras.layers.Conv2D(
+                    filters,
+                    kernel_size=1,
+                    strides=strides,
+                    padding="same",
+                    kernel_initializer="he_normal",
+                    use_bias=False,
+                )
                 self.skip_bn = keras.layers.BatchNormalization()
             else:
                 self.skip_conv = None
@@ -89,6 +111,9 @@ def test_filters_from_sample_pretrained_model():
         def from_config(cls, config):
             return cls(**config)
 
-
     display_model_filters(
-        model_name, output_path=f"{dir_name}/svdnet_filters.png", custom_layer_prefix="residual", num_filters=8)
+        model_name,
+        output_path=f"{dir_name}/svdnet_filters.png",
+        custom_layer_prefix="residual",
+        num_filters=8,
+    )
