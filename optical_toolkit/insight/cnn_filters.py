@@ -39,7 +39,7 @@ def display_filters(model_path, layer_name=None, num_filters=32, output_path=Non
     keras.utils.save_img(output_path, stitched_filters)
 
 
-def display_model_filters(model_path, num_filters=16, output_path=None, model_custom_objects=None, custom_layer_prefix=""):
+def display_model_filters(model_path, num_filters=16, output_path=None, model_custom_objects=None, custom_layer_prefix="", dist_format="hierarchical"):
     """Displays the learned filters of a pretrained model.
        The layers are automatically selected from bottom-mid-top level layers.
 
@@ -50,6 +50,8 @@ def display_model_filters(model_path, num_filters=16, output_path=None, model_cu
         output_path (str): Where to save the visualization
         model_custom_objects (dict): A mapping of the custom objects if present
         custom_layer_prefix (str): Prefix of layers with convolutional blocks
+        dist_format (str): The format in which to sample layer indices -- 
+                           one of {"hierarchical", "constant", "all"}
 
     Returns:
         None
@@ -61,7 +63,7 @@ def display_model_filters(model_path, num_filters=16, output_path=None, model_cu
 
     num_layers = len(conv_layers)
 
-    layer_indices = layer_distribution(num_layers, included_indices=None, select_topmost=True, select_bottommost=True)
+    layer_indices = layer_distribution(num_layers, included_indices=None, select_topmost=True, select_bottommost=True, format=dist_format)
     selected_layers = [conv_layers[i] for i in layer_indices]
 
     layer_filters = []
