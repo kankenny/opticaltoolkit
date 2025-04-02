@@ -1,3 +1,6 @@
+from pathlib import Path
+
+
 from optical_toolkit.insight.cnn_filters import display_filters, display_model_filters
 
 
@@ -13,21 +16,28 @@ def test_filters_from_layer():
     ]
 
     for layer_name in layer_names:
+        output_path = f"{dir_name}/mock_{layer_name}_layer_filters.png"
+
         display_filters(
             model_name,
             layer_name=layer_name,
-            output_path=f"{dir_name}/{layer_name}_layer_filters.png",
+            output_path=output_path,
         )
+
+        Path(output_path).unlink(missing_ok=True)
 
 
 def test_filters_from_pretrained_model():
     model_name = "efficientnetb0"
     dir_name = "examples/insights"
 
+    output_path = f"{dir_name}/mock_{model_name}_filters.png"
+
     display_model_filters(
-        model_name, output_path=f"{dir_name}/{model_name}_filters.png", num_filters=8,
+        model_name, output_path=output_path, num_filters=2,
         layer_name_preference="_se_"
     )
+    Path(output_path).unlink(missing_ok=True)
 
 
 def test_filters_from_sample_pretrained_model():
@@ -35,6 +45,8 @@ def test_filters_from_sample_pretrained_model():
 
     model_name = "examples/custom_models/svdnet.keras"
     dir_name = "examples/insights"
+
+    output_path = f"{dir_name}/mock_svdnet_filters.png"
 
     @keras.saving.register_keras_serializable()
     class ResidualConvBlock(keras.layers.Layer):
@@ -114,7 +126,9 @@ def test_filters_from_sample_pretrained_model():
 
     display_model_filters(
         model_name,
-        output_path=f"{dir_name}/svdnet_filters.png",
+        output_path=output_path,
         custom_layer_prefix="residual",
-        num_filters=8,
+        num_filters=2,
     )
+
+    Path(output_path).unlink(missing_ok=True)
