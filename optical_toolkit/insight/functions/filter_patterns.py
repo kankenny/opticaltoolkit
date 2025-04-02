@@ -45,7 +45,7 @@ def generate_filter_patterns(layer, num_filters, img_sz, feature_extractor):
     with tqdm(
         total=num_filters, desc=desc, unit="step", ncols=75, mininterval=0.1
     ) as pbar:
-        tqdm.write(f"{border}\n{desc.center(LINE_LENGTH)}\n{sub_border}\n")
+        tqdm.write(f"{border}\n{desc} on Layer: {layer.name}\n{sub_border}\n")
         for filter_index in range(num_filters):
             pbar.set_description(f"Processing filter {filter_index}")
             filter_index = tf.convert_to_tensor(filter_index, dtype=tf.int32)

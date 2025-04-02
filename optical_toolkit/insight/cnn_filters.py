@@ -56,6 +56,7 @@ def display_model_filters(
     output_path=None,
     model_custom_objects=None,
     custom_layer_prefix="",
+    layer_name_preference=None,
     dist_format="hierarchical",
 ):
     """Displays the learned filters of a pretrained model.
@@ -68,15 +69,16 @@ def display_model_filters(
         output_path (str): Where to save the visualization
         model_custom_objects (dict): A mapping of the custom objects if present
         custom_layer_prefix (str): Prefix of layers with convolutional blocks
+        layer_name_preference (str): A string pattern that will select layers
+                                     that match it
         dist_format (str): The format in which to sample layer indices --
                            one of {"hierarchical", "constant", "all"}
-
     Returns:
         None
     """
     model = instantiate_model(model_path, model_custom_objects)
     img_sz = infer_input_size(model)
-    conv_layers = get_conv_layers(model, custom_layer_prefix)
+    conv_layers = get_conv_layers(model, custom_layer_prefix, layer_name_preference)
     conv_layer_names = [conv_layer.name for conv_layer in conv_layers]
 
     num_layers = len(conv_layers)
@@ -96,7 +98,6 @@ def display_model_filters(
         curr_layer_filters = (
             layer.filters if layer.filters < num_filters else num_filters
         )
-        print(curr_layer_filters)
 
         feature_extractor = keras.Model(inputs=model.input, outputs=layer.output)
 

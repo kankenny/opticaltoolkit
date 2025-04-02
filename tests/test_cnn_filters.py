@@ -25,7 +25,8 @@ def test_filters_from_pretrained_model():
     dir_name = "examples/insights"
 
     display_model_filters(
-        model_name, output_path=f"{dir_name}/{model_name}_filters.png", num_filters=8
+        model_name, output_path=f"{dir_name}/{model_name}_filters.png", num_filters=8,
+        layer_name_preference="_se_"
     )
 
 

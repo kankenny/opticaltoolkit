@@ -55,14 +55,22 @@ def get_conv_layer(model, layer_name):
     return layer
 
 
-def get_conv_layers(model, custom_layer_prefix):
+def get_conv_layers(model, custom_layer_prefix, layer_name_preference):
     conv_layers = []
+
+    if layer_name_preference:
+        pattern = re.compile(f".*{re.escape(layer_name_preference)}.*")
+    else:
+        pattern = None
 
     for layer in model.layers:
         if isinstance(layer, tf.keras.layers.Conv2D):
-            conv_layers.append(layer)
-        elif custom_layer_prefix != "" and layer.name.startswith(custom_layer_prefix):
-            conv_layers.append(layer)
+            if pattern and pattern.match(layer.name):
+                conv_layers.append(layer)
+            elif custom_layer_prefix and layer.name.startswith(custom_layer_prefix):
+                conv_layers.append(layer)
+            else:
+                conv_layers.append(layer)
 
     return conv_layers
 
@@ -106,8 +114,8 @@ def layer_distribution(
 
 
 def _hierarchical_layers(num_layers):
-    bot_percentiles = tf.linspace(0.0, 0.2, 2)
-    mid_percentiles = tf.linspace(0.2, 0.5, 4)
+    bot_percentiles = tf.linspace(0.0, 0.2, 3)
+    mid_percentiles = tf.linspace(0.2, 0.5, 3)
     top_percentiles = tf.linspace(0.5, 0.7, 2)
 
     percentiles = tf.concat([bot_percentiles, mid_percentiles, top_percentiles], axis=0)
