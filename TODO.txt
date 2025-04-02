@@ -26,7 +26,7 @@ MED
 7.  Support model path to be a tf pretrained model in cnn_filters fn (tf & keras format)                 # DONE
 8.  Support model path to be a tf pretrained model in cnn_filters fn (tf & keras format)                 # DONE
 9.  Use optimizers instead of simple gradient ascent                                                     # DONE, BUT NO IMPROVEMENT
-10. Consider possibility of multithreaded runtime of display_model_filters fn
+10. Consider possibility of multithreaded runtime of display_model_filters fn                            # UNNEEDED, DO IN API INSTEAD
 
 ___________________________________________________________________________________________________________________
 
