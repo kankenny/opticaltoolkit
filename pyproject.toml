@@ -1,6 +1,6 @@
 [project]
 name = "optical_toolkit"
-version = "0.6.2"
+version = "0.7.0"
 description = "An API for streamlining unsupervised ML ops such as visualizations, clustering, CNN insights, etc."
 authors = [
     {name = "kenny",email = "97374837+kankenny@users.noreply.github.com"}
