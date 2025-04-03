@@ -22,7 +22,7 @@ MED
 3.  Implement a function that will run the display_filters over multiple layers (display_model_filters)  # DONE
 4.  Simplify display_model_filters fn to output a single page summary                                    # DONE
 5.  Interface the displaying of all embeddings, possibly multithread
-6.  Change imaging backend to matplotlib
+6.  Change imaging backend to matplotlib                                                                 # DONE
 7.  Support model path to be a tf pretrained model in cnn_filters fn (tf & keras format)                 # DONE
 8.  Support model path to be a tf pretrained model in cnn_filters fn (tf & keras format)                 # DONE
 9.  Use optimizers instead of simple gradient ascent                                                     # DONE, BUT NO IMPROVEMENT
