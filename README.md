@@ -12,11 +12,31 @@ pip install optical_toolkit
 ## Visualize
 
 - Visualize a dataset in a grid
-<!-- 
+```python
+from sklearn.datasets import load_digits
+from optical_toolkit.visualize import plot_images
+
+X, y = load_digits()
+
+plot_images(X, targets=y)
+```
 <p align="center" width="100%">
-  <img src="examples/noise_image_grid_labeled.png" alt="dataset"/>
+  <img src="examples/visualizations/test_sklearn_digits.png" alt="dataset"/>
 </p>
--->
+
+- Summarize a dataset by classes
+ ```python
+from sklearn.datasets import load_digits
+from optical_toolkit.visualize import plot_images
+
+X, y = load_digits()
+
+summarize_images(X, targets=y, num_images_per_class=10, num_classes=10)
+```
+<p align="center" width="100%">
+    <img src="examples/visualizations/test_summarize_images.png" alt="dataset"/>
+</p>
+
 
 - Visualize the 2d and 3d embeddings of images
  ```python
