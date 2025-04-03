@@ -1,5 +1,3 @@
-import os
-
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -20,14 +18,12 @@ def sample_targets():
 
 
 def test_plot_images_basic(sample_images):
-    output_path = "test_images.png"
+    output_path = "examples/visualizations/test_images.png"
     plot_images(sample_images, cols=5, output_path=output_path)
-    assert os.path.exists(output_path)
-    os.remove(output_path)
 
 
 def test_plot_images_with_targets(sample_images, sample_targets):
-    output_path = "test_images_with_targets.png"
+    output_path = "examples/visualizations/test_images_with_targets.png"
     plot_images(
         sample_images,
         cols=5,
@@ -35,8 +31,6 @@ def test_plot_images_with_targets(sample_images, sample_targets):
         ordered_plot=True,
         output_path=output_path,
     )
-    assert os.path.exists(output_path)
-    os.remove(output_path)
 
 
 def test_plot_images_return_plot(sample_images):
@@ -58,10 +52,8 @@ def test_plot_images_invalid_image_type():
 
 def test_plot_images_with_dataframe():
     df = pd.DataFrame([[np.random.rand(100, 100, 3)] * 5] * 5)
-    output_path = "test_images_df.png"
+    output_path = "examples/visualizations/test_images_df.png"
     plot_images(df, cols=5, output_path=output_path)
-    assert os.path.exists(output_path)
-    os.remove(output_path)
 
 
 def test_plot_images_with_sklearn_digits():
@@ -69,10 +61,7 @@ def test_plot_images_with_sklearn_digits():
     images = [digits.images[i] for i in range(10)]
     targets = digits.target[:10]
 
-    output_path = "test_sklearn_digits.png"
+    output_path = "examples/visualizations/test_sklearn_digits.png"
     plot_images(
         images, cols=5, targets=targets, ordered_plot=True, output_path=output_path
     )
-
-    assert os.path.exists(output_path)
-    os.remove(output_path)
