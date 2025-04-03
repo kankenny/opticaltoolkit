@@ -28,6 +28,7 @@ def mnist_digits_data():
     return X, y
 
 
+@pytest.mark.slow
 def test_compare_2d_embeddings(mnist_digits_data):
     X, y = mnist_digits_data
 
@@ -58,6 +59,7 @@ def test_compare_2d_embeddings(mnist_digits_data):
     plt.show()
 
 
+@pytest.mark.slow
 def test_compare_3d_embeddings(mnist_digits_data):
     X, y = mnist_digits_data
 

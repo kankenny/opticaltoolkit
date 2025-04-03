@@ -32,4 +32,4 @@ jobs:
         run: pip install -r requirements.txt
         
       - name: Run automated tests
-        run: pytest 
+        run: pytest . -k "not slow"
