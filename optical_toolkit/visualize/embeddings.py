@@ -13,22 +13,30 @@ def get_embeddings(
     y=None,
     embedding_dims: int = 2,
     embedding_type: str | ManifoldType = "TSNE",
-    fname: str = "embedding",
+    output_path: str = "embedding",
     kappa: int = 30,
     return_plot: bool = False,
     seed: int | None = 42,
 ):
-    """Given a numpy array of images X, flatten the images
-       and plot a 2D or 3D embedding using t-SNE.
+    """Given an array-like of images X, project the data onto a 
+       lower dimensional 2D or 3D embedding.
 
     Args:
-        X (numpy array): Array of images of shape --
+        X (array-like): Array of images of shape --
                         (num_images, height, width, channels)
                         or (num_images, height, width) for grayscale images.
-        dims (int): Number of dims for t-SNE embedding (2 or 3).
+        y (array-like): Optional target labels for coloring
+        embedding_dims (int): Number of dims for embedding (2 or 3).
+        embedding_type (str): Embedding algorithm to use
+        output_path (str): Name to assign and save the embedding plot
+        kappa (int): Embedding hyperparameter (usually the 
+                     number of neighbors per sample)
+        return_plot (bool): Whether or not to return the plot as well for 
+                            additional configuration
+        seed (int | None): Seed for deterministic results 
 
     Returns:
-        embedding (numpy array): The 2D or 3D embedding.
+        embedding (numpy array): The 2D or 3D embedding of the data.
     """
 
     if dims not in [2, 3]:
@@ -99,6 +107,7 @@ def get_embeddings(
                 ax.scatter([], [], [], color=class_to_color[cls], label=str(cls))
             ax.legend(title="Classes", loc="best")
 
+    plt.savefig(output_path)
     plt.show()
 
     return embedding, plt.gcf() if return_plot else embedding
