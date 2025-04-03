@@ -12,11 +12,11 @@ from .functions.stitched_image import concat_images, stitched_image
 
 
 def display_filters(
-    model_path,
-    layer_name=None,
-    num_filters=32,
-    output_path=None,
-    model_custom_objects=None,
+    model_path: str,
+    layer_name: str = None,
+    num_filters: int = 32,
+    output_path: str = None,
+    model_custom_objects: dict = None,
 ):
     """Displays the learned filters of a layer of a pretrained model.
 
@@ -51,13 +51,13 @@ def display_filters(
 
 
 def display_model_filters(
-    model_path,
-    num_filters=16,
-    output_path=None,
-    model_custom_objects=None,
-    custom_layer_prefix="",
-    layer_name_preference=None,
-    dist_format="hierarchical",
+    model_path: str,
+    num_filters: int = 16,
+    output_path: str = None,
+    model_custom_objects: dict = None,
+    custom_layer_prefix: str = "",
+    layer_name_preference: str = None,
+    dist_format: str = "hierarchical",
 ):
     """Displays the learned filters of a pretrained model.
        The layers are automatically selected from bottom-mid-top level layers.

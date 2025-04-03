@@ -66,7 +66,11 @@ def get_conv_layers(model, custom_layer_prefix, layer_name_preference):
     for layer in model.layers:
         if pattern and pattern.match(layer.name) and hasattr(layer, "filters"):
             conv_layers.append(layer)
-        elif custom_layer_prefix and layer.name.startswith(custom_layer_prefix) and hasattr(layer, "filters"):
+        elif (
+            custom_layer_prefix
+            and layer.name.startswith(custom_layer_prefix)
+            and hasattr(layer, "filters")
+        ):
             conv_layers.append(layer)
         elif isinstance(layer, tf.keras.layers.Conv2D):
             conv_layers.append(layer)

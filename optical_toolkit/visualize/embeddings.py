@@ -13,7 +13,7 @@ def get_embeddings(
     y=None,
     dims: int = 2,
     embedding_type: str | ManifoldType = "TSNE",
-    fname="embedding",
+    fname: str = "embedding",
     kappa: int = 30,
     return_plot: bool = False,
     seed: int | None = 42,
