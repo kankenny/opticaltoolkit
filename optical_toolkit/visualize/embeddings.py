@@ -39,8 +39,8 @@ def get_embeddings(
         embedding (numpy array): The 2D or 3D embedding of the data.
     """
 
-    if dims not in [2, 3]:
-        raise ValueError("dims parameter must be 2 or 3.")
+    if embedding_dims not in [2, 3]:
+        raise ValueError("embedding_dims parameter must be 2 or 3.")
 
     X = preprocess(X)
 
@@ -52,7 +52,9 @@ def get_embeddings(
     flat_images = X.reshape(num_images, image_size)
 
     # Apply t-SNE to reduce dimensionality to 2D or 3D
-    manifold_model = get_manifold(embedding_type, dims=dims, kappa=kappa, seed=seed)
+    manifold_model = get_manifold(
+        embedding_type, dims=embedding_dims, kappa=kappa, seed=seed
+    )
     embedding = manifold_model.fit_transform(flat_images)
     embedding = MinMaxScaler().fit_transform(embedding)
 
@@ -69,7 +71,7 @@ def get_embeddings(
 
     # Plot the embedding
     plt.figure(figsize=(8, 6))
-    if dims == 2:
+    if embedding_dims == 2:
         plt.scatter(embedding[:, 0], embedding[:, 1], s=5, c=colors)
         plt.title(f"2D Embedding of Images using {embedding_type}")
         plt.xlabel("Dimension 1")
@@ -91,7 +93,7 @@ def get_embeddings(
             ]
             plt.legend(legend_labels, unique_classes, title="Classes", loc="best")
 
-    elif dims == 3:
+    elif embedding_dims == 3:
         ax = plt.axes(projection="3d")
         ax.scatter(embedding[:, 0], embedding[:, 1], embedding[:, 2], s=5, c=colors)
         ax.set_title(f"3D Embedding of Images using {embedding_type}")
@@ -107,7 +109,8 @@ def get_embeddings(
                 ax.scatter([], [], [], color=class_to_color[cls], label=str(cls))
             ax.legend(title="Classes", loc="best")
 
-    plt.savefig(output_path)
+    if not return_plot:
+        plt.savefig(output_path)
     plt.show()
 
     return embedding, plt.gcf() if return_plot else embedding
