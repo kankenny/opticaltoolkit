@@ -39,7 +39,7 @@ def test_compare_2d_embeddings(mnist_digits_data):
 
     for i, embedding_type in enumerate(manifold_types):
         _, fig_2d = get_embeddings(
-            X, y, dims=2, embedding_type=embedding_type, return_plot=True
+            X, y, embedding_dims=2, embedding_type=embedding_type, return_plot=True
         )
 
         fig_2d.canvas.draw()
@@ -68,7 +68,7 @@ def test_compare_3d_embeddings(mnist_digits_data):
 
     for i, embedding_type in enumerate(manifold_types):
         _, fig_3d = get_embeddings(
-            X, y, dims=3, embedding_type=embedding_type, return_plot=True
+            X, y, embedding_dims=3, embedding_type=embedding_type, return_plot=True
         )
 
         fig_3d.canvas.draw()

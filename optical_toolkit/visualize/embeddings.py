@@ -11,7 +11,7 @@ from .functions.manifolds import ManifoldType, get_manifold
 def get_embeddings(
     X,
     y=None,
-    dims: int = 2,
+    embedding_dims: int = 2,
     embedding_type: str | ManifoldType = "TSNE",
     fname: str = "embedding",
     kappa: int = 30,
