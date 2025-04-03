@@ -18,7 +18,7 @@ def get_embeddings(
     return_plot: bool = False,
     seed: int | None = 42,
 ):
-    """Given an array-like of images X, project the data onto a 
+    """Given an array-like of images X, project the data onto a
        lower dimensional 2D or 3D embedding.
 
     Args:
@@ -29,11 +29,11 @@ def get_embeddings(
         embedding_dims (int): Number of dims for embedding (2 or 3).
         embedding_type (str): Embedding algorithm to use
         output_path (str): Name to assign and save the embedding plot
-        kappa (int): Embedding hyperparameter (usually the 
+        kappa (int): Embedding hyperparameter (usually the
                      number of neighbors per sample)
-        return_plot (bool): Whether or not to return the plot as well for 
+        return_plot (bool): Whether or not to return the plot as well for
                             additional configuration
-        seed (int | None): Seed for deterministic results 
+        seed (int | None): Seed for deterministic results
 
     Returns:
         embedding (numpy array): The 2D or 3D embedding of the data.
