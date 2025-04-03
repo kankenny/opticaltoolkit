@@ -79,7 +79,6 @@ def display_model_filters(
     model = instantiate_model(model_path, model_custom_objects)
     img_sz = infer_input_size(model)
     conv_layers = get_conv_layers(model, custom_layer_prefix, layer_name_preference)
-    conv_layer_names = [conv_layer.name for conv_layer in conv_layers]
 
     num_layers = len(conv_layers)
 
