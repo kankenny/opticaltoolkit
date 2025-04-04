@@ -1,5 +1,6 @@
-
-# OpticalToolkit
+<p align="center" width="75%">
+  <img src="examples/logo.png" alt="opticaltoolkit_logo"/>
+</p>
 
 ## A collection of deep learning -- computer vision utility functions
 
