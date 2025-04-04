@@ -11,7 +11,7 @@ from .functions.visualize_utils import (_convert_images_to_numpy, _plot_and_save
 
 def plot_images(
     images: List[np.ndarray],
-    cols: int = 5,
+    cols: int = 10,
     targets: list | None = None,
     ordered_plot: bool = True,
     output_path: str = "images.png",
@@ -34,9 +34,9 @@ def plot_images(
 def summarize_images(
     images: List[np.ndarray],
     targets: List[int],
-    num_images_per_class: int = 10,
+    num_images_per_class: int | None = 10,
     num_classes: int | None = None,
-    cols: int = 5,
+    cols: int = 10,
     output_path: str = "dataset_summary.png",
 ) -> plt.Figure:
     class_images = defaultdict(list)
