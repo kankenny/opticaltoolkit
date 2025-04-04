@@ -1,7 +1,10 @@
 import os
 from typing import Tuple
 
+import matplotlib.pyplot as plt
+import numpy as np
 import tensorflow as tf
+from matplotlib.figure import Figure
 
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
 
@@ -119,52 +122,43 @@ def display_model_filters(
 
 
 def convolve(
-    image: np.ndarray | tf.Tensor,
-    filter: np.ndarray | tf.Tensor,
-    intensity: str = "raw",
-    output_path: str = "feature_map.png",
-    return_plot: bool = False,
-) -> tf.Tensor | Tuple[tf.Tensor, plt.Figure]:
+    image, filter, cmap="viridis", output_path="feature_map.png", return_plot=False
+):
     """
     Applies a 3D convolutional filter to an RGB image using TensorFlow.
 
     Args:
         image (np.ndarray | tf.Tensor): RGB image of shape (H, W, C)
-        filter (np.ndarray | tf.Tensor): 3D filter of shape (fH, fW, C)
-        intensity (str): 'raw', 'relu', or 'normalize' to modify output map
-        output_path (str): Path to save the output image
-        return_plot (bool): Whether to return the plot figure with the feature map
+        filter (np.ndarray | tf.Tensor): 2D or 3D filter of shape (fH, fW) or (fH, fW, C, 1)
+        output_path (str): Path where the feature map will be saved.
 
     Returns:
-        tf.Tensor | (tf.Tensor, plt.Figure): 2D feature map, optionally with the plot
+        tf.Tensor: 2D feature map
     """
     image = tf.convert_to_tensor(image, dtype=tf.float32)
     filter = tf.convert_to_tensor(filter, dtype=tf.float32)
 
-    image_batch = tf.expand_dims(image, axis=0)  # (1, H, W, C)
-    filter = tf.reshape(
-        filter, (filter.shape[0], filter.shape[1], filter.shape[2], 1)
-    )  # (fH, fW, C, 1)
+    if image.ndim == 2:  # Grayscale -> RGB
+        image = np.stack([image] * 3, axis=-1)
 
-    feature_map = tf.nn.conv2d(image_batch, filter, strides=1, padding="VALID")
-    feature_map = tf.squeeze(feature_map)  # (H', W')
+    # Ensure image is 4D by adding a batch dimension
+    image = tf.expand_dims(image, axis=0)  # (1, H, W, C) - Add batch dimension
 
-    if intensity == "relu":
-        feature_map = tf.nn.relu(feature_map)
-    elif intensity == "normalize":
-        feature_map -= tf.reduce_min(feature_map)
-        feature_map /= tf.reduce_max(feature_map) + 1e-8
+    if len(filter.shape) == 2:  # Handle 2D filters (like horizontal, vertical, etc.)
+        filter = filter[:, :, np.newaxis, np.newaxis]  # (fH, fW, 1, 1)
+        filter = np.repeat(filter, 3, axis=2)
+    elif len(filter.shape) == 3:  # Handle 3D filters (pre-trained models, etc.)
+        filter = filter[:, :, :, np.newaxis]
 
-    plt.imshow(feature_map.numpy(), cmap="viridis")
-    plt.title(f"Feature Map ({intensity})")
+    feature_map = tf.nn.conv2d(image, filter, strides=[1, 1, 1, 1], padding="VALID")
+    feature_map = tf.squeeze(
+        feature_map
+    )  # Remove batch and channel dimensions → (H', W')
+
+    plt.imshow(feature_map.numpy(), cmap=cmap)
+    plt.title("Feature Map")
     plt.axis("off")
+    plt.savefig(output_path)
+    plt.show()
 
-    if output_path:
-        plt.savefig(output_path, bbox_inches="tight")
-        print(f"Feature map saved to {output_path}")
-
-    if return_plot:
-        return feature_map, plt.gcf()
-    else:
-        plt.show()
-        return feature_map
+    return feature_map, plt.gcf() if return_plot else feature_map
