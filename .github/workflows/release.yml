@@ -11,7 +11,7 @@ defaults:
 jobs:
   publish:
     runs-on: ubuntu-latest
-    environment: PYPI_TOKEN
+    environment: PYPI
 
     steps:
       - uses: actions/checkout@v2.4.0
