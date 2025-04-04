@@ -1,38 +1,38 @@
 HIGH
 ====
 
-1.  Use all available unsupervised embeddings                                                           # DONE
-2.  Add optional (display_labels=True) labels on each image per obs in display_dataset()                # DONE
-3.  Standardize the dataset before obtaining the embeddings                                             # DONE
-4.  Force display on notebooks via iPython                                                              # UNNEEDED
-5.  Visualize the learned filters of a CNN                                                              # DONE
-6.  Analyze the highly confident errors of a model                                                      # ANOTHER REPO
-7.  Analyze the confusion matrix that is normalized by rows and cols                                    # ANOTHER REPO
-8.  Convolve a learned filter over an image to see its behavior                                         # DONE
-9.  Add poetry ignore
+1.  Use all available unsupervised embeddings                                                               # DONE
+2.  Add optional (display_labels=True) labels on each image per obs in display_dataset()                    # DONE
+3.  Standardize the dataset before obtaining the embeddings                                                 # DONE
+4.  Force display on notebooks via iPython                                                                  # UNNEEDED
+5.  Visualize the learned filters of a CNN                                                                  # DONE
+6.  Analyze the highly confident errors of a model                                                          # ANOTHER REPO
+7.  Analyze the confusion matrix that is normalized by rows and cols                                        # ANOTHER REPO
+8.  Convolve a learned filter over an image to see its behavior                                             # DONE
+9.  Add poetry ignore                                                                                       # DONE
 
-__________________________________________________________________________________________________________________
+__________________________________________________________________________________________________________________________________________
 
 
 MED
 ===
 
 1.  Change environment name of the deployment in GitHub
-2.  Modularize display_filters fn                                                                        # DONE
-3.  Implement a function that will run the display_filters over multiple layers (display_model_filters)  # DONE
-4.  Simplify display_model_filters fn to output a single page summary                                    # DONE
-5.  Interface the displaying of all embeddings, possibly multithread                                     # UNNEEDED, DO IN API INSTEAD
-6.  Change imaging backend to matplotlib                                                                 # DONE
-7.  Support model path to be a tf pretrained model in cnn_filters fn (tf & keras format)                 # DONE
-8.  Support model path to be a tf pretrained model in cnn_filters fn (tf & keras format)                 # DONE
-9.  Use optimizers instead of simple gradient ascent                                                     # DONE, BUT NO IMPROVEMENT
-10. Consider possibility of multithreaded runtime of display_model_filters fn                            # UNNEEDED, DO IN API INSTEAD
+2.  Modularize display_filters fn                                                                           # DONE
+3.  Implement a function that will run the display_filters over multiple layers (display_model_filters)     # DONE
+4.  Simplify display_model_filters fn to output a single page summary                                       # DONE
+5.  Interface the displaying of all embeddings, possibly multithread                                        # UNNEEDED, DO IN API INSTEAD
+6.  Change imaging backend to matplotlib                                                                    # DONE
+7.  Support model path to be a tf pretrained model in cnn_filters fn (tf & keras format)                    # DONE
+8.  Support model path to be a tf pretrained model in cnn_filters fn (tf & keras format)                    # DONE
+9.  Use optimizers instead of simple gradient ascent                                                        # DONE, BUT NO IMPROVEMENT
+10. Consider possibility of multithreaded runtime of display_model_filters fn                               # UNNEEDED, DO IN API INSTEAD
 
-___________________________________________________________________________________________________________________
+___________________________________________________________________________________________________________________________________________
 
 LOW
 ===
 
 1. Update README.md
 
-___________________________________________________________________________________________________________________
+___________________________________________________________________________________________________________________________________________
