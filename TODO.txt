@@ -7,7 +7,7 @@ HIGH
 4.  Force display on notebooks via iPython                                                              # UNNEEDED
 5.  Visualize the learned filters of a CNN                                                              # DONE
 6.  Analyze the highly confident errors of a model                                                      # ANOTHER REPO
-7.  Analyze the confusion matrix that is normalized by rows and cols
+7.  Analyze the confusion matrix that is normalized by rows and cols                                    # ANOTHER REPO
 8.  Convolve a learned filter over an image to see its behavior
 9.  Add poetry ignore
 
