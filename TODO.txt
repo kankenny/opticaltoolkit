@@ -10,7 +10,7 @@ HIGH
 7.  Analyze the confusion matrix that is normalized by rows and cols                                        # ANOTHER REPO
 8.  Convolve a learned filter over an image to see its behavior                                             # DONE
 9.  Add poetry ignore                                                                                       # DONE
-10. Remove redundancy of class labels in summarize_images function
+10. Remove redundancy of class labels in summarize_images function                                          # DONE
 
 __________________________________________________________________________________________________________________________________________
 
