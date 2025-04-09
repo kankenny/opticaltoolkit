@@ -30,43 +30,49 @@ def plot_images(
 
     return fig
 
-
 def summarize_images(
     images: List[np.ndarray],
     targets: List[int],
     num_images_per_class: int | None = 10,
     num_classes: int | None = None,
-    cols: int = 10,
     output_path: str = "dataset_summary.png",
 ) -> plt.Figure:
     class_images = defaultdict(list)
     for img, label in zip(images, targets):
         class_images[label].append(img)
 
+    sorted_class_items = sorted(class_images.items())
     if num_classes is not None:
-        class_images = dict(list(class_images.items())[:num_classes])
+        sorted_class_items = sorted_class_items[:num_classes]
+
+    n_rows = len(sorted_class_items)
+    n_cols = num_images_per_class + 1  # extra column for labels
 
     fig, axes = plt.subplots(
-        len(class_images),
-        num_images_per_class,
-        figsize=(num_images_per_class * 2, len(class_images) * 2),
+        n_rows,
+        n_cols,
+        figsize=(n_cols * 2, n_rows * 2),
     )
 
-    if len(class_images) == 1:
+    if n_rows == 1:
         axes = [axes]
 
-    for row_idx, (label, class_images_list) in enumerate(class_images.items()):
-        for col_idx in range(min(num_images_per_class, len(class_images_list))):
-            ax = axes[row_idx, col_idx] if len(class_images) > 1 else axes[col_idx]
-            ax.imshow(class_images_list[col_idx])
-            ax.axis("off")
-            ax.set_title(f"Class {label}", fontsize=12)
+    for row_idx, (label, class_images_list) in enumerate(sorted_class_items):
+        # Put label in the first column
+        ax_label = axes[row_idx][0] if n_rows > 1 else axes[0]
+        ax_label.axis("off")
+        ax_label.text(0.5, 0.5, f"Class {label}", fontsize=14,
+                      ha="center", va="center", transform=ax_label.transAxes)
 
-        for col_idx in range(len(class_images_list), num_images_per_class):
-            ax = axes[row_idx, col_idx] if len(class_images) > 1 else axes[col_idx]
-            ax.set_visible(False)
+        for col_idx in range(num_images_per_class):
+            ax = axes[row_idx][col_idx + 1] if n_rows > 1 else axes[col_idx + 1]
+            if col_idx < len(class_images_list):
+                ax.imshow(class_images_list[col_idx], cmap="viridis")
+                ax.axis("off")
+            else:
+                ax.set_visible(False)
 
-    plt.subplots_adjust(wspace=0.4, hspace=0.4)
+    plt.subplots_adjust(wspace=0.2, hspace=0.2)
     plt.savefig(output_path, bbox_inches="tight")
     print(f"Summary plot saved to {output_path}")
     plt.show()
