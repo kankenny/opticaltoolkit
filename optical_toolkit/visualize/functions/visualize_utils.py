@@ -1,3 +1,5 @@
+import random
+from collections import defaultdict
 from typing import List
 
 import matplotlib.pyplot as plt
@@ -37,6 +39,35 @@ def _sort_images_by_targets(
     sorted_targets = [x[1] for x in sorted_images_targets]
 
     return sorted_images, sorted_targets
+
+
+def _stratified_sample(
+    images: List[np.ndarray], targets: list, num_samples: int
+) -> tuple[list, list]:
+    class_indices = defaultdict(list)
+    for idx, label in enumerate(targets):
+        class_indices[label].append(idx)
+
+    sampled_indices = []
+    num_classes = len(class_indices)
+    samples_per_class = max(1, num_samples // num_classes)
+
+    for label, indices in class_indices.items():
+        selected = random.sample(indices, min(samples_per_class, len(indices)))
+        sampled_indices.extend(selected)
+
+    # If under-sampled (e.g. not enough examples per class), pad randomly
+    if len(sampled_indices) < num_samples:
+        remaining = list(set(range(len(images))) - set(sampled_indices))
+        extra = random.sample(remaining, num_samples - len(sampled_indices))
+        sampled_indices.extend(extra)
+
+    random.shuffle(sampled_indices)
+
+    sampled_images = [images[i] for i in sampled_indices]
+    sampled_targets = [targets[i] for i in sampled_indices]
+
+    return sampled_images, sampled_targets
 
 
 def _plot_and_save(

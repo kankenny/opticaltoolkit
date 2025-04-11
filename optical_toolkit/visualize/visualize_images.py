@@ -1,3 +1,4 @@
+import random
 from collections import defaultdict
 from typing import List
 
@@ -6,17 +7,35 @@ import numpy as np
 
 from .functions.visualize_utils import (_convert_images_to_numpy, _plot_and_save,
                                         _resize_images_to_largest,
-                                        _sort_images_by_targets)
+                                        _sort_images_by_targets, _stratified_sample)
 
 
 def plot_images(
     images: List[np.ndarray],
-    cols: int = 10,
+    num_samples: int | None = None,
+    num_cols: int | None = None,
     targets: list | None = None,
     ordered_plot: bool = True,
     output_path: str = "images.png",
 ) -> plt.Figure:
-    if not images or (isinstance(images, np.ndarray) and images.size == 0):
+    """
+    Plot a grid of images and optionally their corresponding target labels.
+
+    Args:
+        images (List[np.ndarray]): A list of images as NumPy arrays.
+        num_samples (int | None, optional): Number of images to display. If None, displays all.
+        num_cols (int | None, optional): Number of columns in the image grid. If None, it will be inferred to make the grid square-ish.
+        targets (list | None, optional): Labels corresponding to the images.
+        ordered_plot (bool, optional): Whether to sort images based on targets. Defaults to True.
+        output_path (str, optional): File path to save the image plot. Defaults to "images.png".
+
+    Returns:
+        plt.Figure: The matplotlib figure object containing the image grid.
+    """
+    if isinstance(images, np.ndarray):
+        if images.size == 0:
+            raise ValueError("The images array cannot be empty.")
+    elif len(images) == 0:
         raise ValueError("The images list cannot be empty.")
 
     images = _convert_images_to_numpy(images)
@@ -24,9 +43,20 @@ def plot_images(
     if targets is not None and ordered_plot:
         images, targets = _sort_images_by_targets(images, targets)
 
+    if num_samples is not None:
+        if targets is not None:
+            images, targets = _stratified_sample(images, targets, num_samples)
+        else:
+            indices = random.sample(range(len(images)), min(num_samples, len(images)))
+            images = [images[i] for i in indices]
+
     images_resized = _resize_images_to_largest(images)
 
-    fig = _plot_and_save(images_resized, targets, cols, output_path)
+    # Automatically determine number of columns if not provided
+    if num_cols is None:
+        num_cols = int(np.ceil(np.sqrt(len(images_resized))))
+
+    fig = _plot_and_save(images_resized, targets, num_cols, output_path)
 
     return fig
 
