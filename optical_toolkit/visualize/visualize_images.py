@@ -83,12 +83,17 @@ def summarize_images(
     Returns:
         plt.Figure: The matplotlib figure object for the summary grid.
     """
-    if not images or not targets:
-        raise ValueError("Images and targets must be non-empty.")
-    if len(images) != len(targets):
-        raise ValueError("Length of images and targets must match.")
-    if num_images_per_class <= 0:
-        raise ValueError("num_images_per_class must be positive.")
+    if isinstance(images, np.ndarray):
+        if images.size == 0:
+            raise ValueError("Images array cannot be empty.")
+    elif len(images) == 0:
+        raise ValueError("Images list cannot be empty.")
+    
+    if isinstance(targets, np.ndarray):
+        if targets.size == 0:
+            raise ValueError("Targets array cannot be empty.")
+    elif len(targets) == 0:
+        raise ValueError("Targets list cannot be empty.")
 
     class_images: Dict[int, List[np.ndarray]] = defaultdict(list)
     for img, label in zip(images, targets):
