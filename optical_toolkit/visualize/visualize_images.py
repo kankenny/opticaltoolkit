@@ -5,11 +5,14 @@ from typing import List
 import matplotlib.pyplot as plt
 import numpy as np
 
+from .decorators.validate_plot_images import validate_plot_images_args
+from .decorators.validate_summarize_images import validate_summarize_images_args
 from .functions.visualize_utils import (_convert_images_to_numpy, _plot_and_save,
                                         _resize_images_to_largest,
                                         _sort_images_by_targets, _stratified_sample)
 
 
+@validate_plot_images_args
 def plot_images(
     images: List[np.ndarray],
     num_samples: int | None = None,
@@ -32,11 +35,6 @@ def plot_images(
     Returns:
         plt.Figure: The matplotlib figure object containing the image grid.
     """
-    if isinstance(images, np.ndarray):
-        if images.size == 0:
-            raise ValueError("The images array cannot be empty.")
-    elif len(images) == 0:
-        raise ValueError("The images list cannot be empty.")
 
     images = _convert_images_to_numpy(images)
 
@@ -61,6 +59,7 @@ def plot_images(
     return fig
 
 
+@validate_summarize_images_args
 def summarize_images(
     images: List[np.ndarray],
     targets: List[int],
@@ -83,18 +82,6 @@ def summarize_images(
     Returns:
         plt.Figure: The matplotlib figure object for the summary grid.
     """
-    if isinstance(images, np.ndarray):
-        if images.size == 0:
-            raise ValueError("Images array cannot be empty.")
-    elif len(images) == 0:
-        raise ValueError("Images list cannot be empty.")
-    
-    if isinstance(targets, np.ndarray):
-        if targets.size == 0:
-            raise ValueError("Targets array cannot be empty.")
-    elif len(targets) == 0:
-        raise ValueError("Targets list cannot be empty.")
-
     class_images: Dict[int, List[np.ndarray]] = defaultdict(list)
     for img, label in zip(images, targets):
         class_images[label].append(img)
@@ -112,7 +99,15 @@ def summarize_images(
     for row_idx, (label, class_images_list) in enumerate(sorted_class_items):
         ax_label = axes[row_idx, 0]
         ax_label.axis("off")
-        ax_label.text(0.5, 0.5, f"Class {label}", fontsize=14, ha="center", va="center", transform=ax_label.transAxes)
+        ax_label.text(
+            0.5,
+            0.5,
+            f"Class {label}",
+            fontsize=14,
+            ha="center",
+            va="center",
+            transform=ax_label.transAxes,
+        )
 
         for col_idx, img in enumerate(class_images_list[:num_images_per_class]):
             ax = axes[row_idx, col_idx + 1]
@@ -128,4 +123,3 @@ def summarize_images(
     plt.show()
 
     return fig
-
