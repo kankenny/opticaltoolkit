@@ -30,6 +30,7 @@ def plot_images(
 
     return fig
 
+
 def summarize_images(
     images: List[np.ndarray],
     targets: List[int],
@@ -61,8 +62,15 @@ def summarize_images(
         # Put label in the first column
         ax_label = axes[row_idx][0] if n_rows > 1 else axes[0]
         ax_label.axis("off")
-        ax_label.text(0.5, 0.5, f"Class {label}", fontsize=14,
-                      ha="center", va="center", transform=ax_label.transAxes)
+        ax_label.text(
+            0.5,
+            0.5,
+            f"Class {label}",
+            fontsize=14,
+            ha="center",
+            va="center",
+            transform=ax_label.transAxes,
+        )
 
         for col_idx in range(num_images_per_class):
             ax = axes[row_idx][col_idx + 1] if n_rows > 1 else axes[col_idx + 1]
