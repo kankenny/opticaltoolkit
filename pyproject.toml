@@ -51,3 +51,8 @@ version_files = [
   "pyproject.toml:version",
   "optical_toolkit/__version__.py"
 ]
+
+[tool.pytest.ini_options]
+markers = [
+    "slow: marks tests as slow",
+]

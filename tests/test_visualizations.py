@@ -65,28 +65,3 @@ def test_summarize_images(digits_data):
         num_classes=10,
         output_path=output_path,
     )
-
-    rows = cols = math.ceil(math.sqrt(len(manifold_types)))
-    fig, axes = plt.subplots(rows, cols, figsize=(4 * cols, 4 * rows))
-
-    axes = axes.flatten()
-
-    for i, embedding_type in enumerate(manifold_types):
-        _, fig_3d = get_embeddings(
-            X, y, embedding_dims=3, embedding_type=embedding_type, return_plot=True
-        )
-
-        fig_3d.canvas.draw()
-        axes[i].imshow(fig_3d.canvas.buffer_rgba())
-        axes[i].set_title(f"{embedding_type.value} (3D)")
-        axes[i].axis("off")
-        fig_3d.savefig(
-            f"examples/embeddings/3d_{embedding_type.name}_embedding.png", dpi=300
-        )
-
-    for j in range(i + 1, len(axes)):  # Hide extra subplots
-        axes[j].axis("off")
-
-    fig.tight_layout()
-    fig.savefig("examples/3d_embedding_comparison.png", dpi=300)
-    plt.show()
