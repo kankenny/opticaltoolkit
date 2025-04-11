@@ -70,7 +70,7 @@ def get_embeddings(
         colors = np.array([class_to_color[label] for label in y])
 
     # Plot the embedding
-    plt.figure(figsize=(8, 6))
+    fig = plt.figure(figsize=(8, 6))
     if embedding_dims == 2:
         plt.scatter(embedding[:, 0], embedding[:, 1], s=5, c=colors)
         plt.title(f"2D Embedding of Images using {embedding_type}")
@@ -109,8 +109,10 @@ def get_embeddings(
                 ax.scatter([], [], [], color=class_to_color[cls], label=str(cls))
             ax.legend(title="Classes", loc="best")
 
+
     if not return_plot:
         plt.savefig(output_path)
-    plt.show()
-
-    return embedding, plt.gcf() if return_plot else embedding
+        plt.close(fig)
+        return embedding
+    else:
+        return embedding, fig
