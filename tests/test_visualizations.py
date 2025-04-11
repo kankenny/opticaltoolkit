@@ -26,7 +26,7 @@ def digits_data():
 
 def test_plot_images_basic(sample_images):
     output_path = "examples/visualizations/test_images.png"
-    plot_images(sample_images, num_samples=30, num_cols=5, output_path=output_path)
+    plot_images(sample_images, num_samples=30, output_path=output_path)
 
 
 def test_plot_images_with_targets(sample_images, sample_targets):
@@ -34,7 +34,6 @@ def test_plot_images_with_targets(sample_images, sample_targets):
     plot_images(
         sample_images,
         num_samples=30,
-        num_cols=5,
         targets=sample_targets,
         ordered_plot=True,
         output_path=output_path,
@@ -52,7 +51,6 @@ def test_plot_images_with_sklearn_digits(digits_data):
     plot_images(
         images,
         num_samples=100,
-        num_cols=10,
         targets=targets,
         ordered_plot=True,
         output_path=output_path,
