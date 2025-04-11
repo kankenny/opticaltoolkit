@@ -113,7 +113,18 @@ display_model_filters(
 </p>
 
 ## Analyze
-- Analyze 'highly confident' errors in classification tasks
-    - Confusion matrix normalized by row/column
+- A high level function for image dataset analysis
+```python
+from sklearn.datasets import load_digits
+
+from optical_toolkit.analyze.analyze import analyze_image_dataset
+
+digits = load_digits()
+X = digits.images
+y = digits.target
+
+analyze_image_dataset(X, y, output_path="examples/analyze/analysis.pdf")
+```
+[View full analysis (PDF)](examples/analyze/analysis.pdf)
 
 
