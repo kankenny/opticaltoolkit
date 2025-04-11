@@ -50,6 +50,7 @@ def test_compare_2d_embeddings(mnist_digits_data):
         fig_2d.savefig(
             f"examples/embeddings/2d_{embedding_type.name}_embedding.png", dpi=300
         )
+        plt.close(fig_2d)
 
     for j in range(i + 1, len(axes)):  # Hide extra subplots
         axes[j].axis("off")
@@ -80,6 +81,7 @@ def test_compare_3d_embeddings(mnist_digits_data):
         fig_3d.savefig(
             f"examples/embeddings/3d_{embedding_type.name}_embedding.png", dpi=300
         )
+        plt.close(fig_3d)
 
     for j in range(i + 1, len(axes)):  # Hide extra subplots
         axes[j].axis("off")

@@ -34,6 +34,7 @@ def plot_2d_embeddings(X, y, output_path):
         axes[i].set_title(f"{embedding_type.value} (2D)")
         axes[i].axis("off")
         fig_2d.savefig(output_path, dpi=300)
+        plt.close(fig_2d)
 
     for j in range(i + 1, len(axes)):  # Hide extra subplots
         axes[j].axis("off")
@@ -59,6 +60,8 @@ def plot_3d_embeddings(X, y, output_path):
         axes[i].set_title(f"{embedding_type.value} (3D)")
         axes[i].axis("off")
         fig_3d.savefig(output_path, dpi=300)
+        plt.close(fig_3d)
+        
 
     for j in range(i + 1, len(axes)):
         axes[j].axis("off")
