@@ -11,7 +11,7 @@ HIGH
 8.  Convolve a learned filter over an image to see its behavior                                             # DONE
 9.  Add poetry ignore                                                                                       # DONE
 10. Remove redundancy of class labels in summarize_images function                                          # DONE
-11. Implement the analyze API that analyzes dataset statistics
+11. Implement the analyze API that analyzes dataset statistics                                              # DONE
 
 __________________________________________________________________________________________________________________________________________
 
