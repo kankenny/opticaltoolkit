@@ -118,9 +118,6 @@ def generate_pie_chart(class_counts, output_path):
     ax.axis("equal")
     plt.title("Class Distribution")
 
-    # # Center the pie chart by adjusting the figure size or layout
-    # plt.subplots_adjust(left=0.1, right=0.9, top=0.9, bottom=0.1)  # Adjust margins
-
     plt.savefig(output_path, dpi=300, bbox_inches="tight")
     plt.close()
 
@@ -159,7 +156,3 @@ def summarize_image_statistics(X, y, output_path):
 
         # Step 4: Cleanup
         [Path.unlink(path) for path in all_paths]
-
-
-
-    

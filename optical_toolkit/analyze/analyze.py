@@ -1,6 +1,7 @@
 from pathlib import Path
-from pypdf import PdfWriter
+
 from PIL import Image
+from pypdf import PdfWriter
 
 from optical_toolkit.visualize.visualize_images import summarize_images
 
@@ -13,17 +14,17 @@ def analyze_image_dataset(
 ):
     output_path = Path(output_path)
 
-    if Path(output_path).suffix.lower() != '.pdf': 
+    if Path(output_path).suffix.lower() != ".pdf":
         raise ValueError("The file must have a '.pdf' extension.")
 
     if num_classes is None:
         num_classes = len(set(y))
 
-    # Step 0 -- Summary Statistics
+    # Step 0: Summary Statistics
     temp_path_0 = f"{output_path.stem}_0.pdf"
     summarize_image_statistics(X=y, y=y, output_path=temp_path_0)
 
-    # Step 1 -- Image Samples
+    # Step 1: Image Samples
     temp_path_1 = f"{output_path.stem}_1.pdf"
     summarize_images(
         images=X,
@@ -33,15 +34,15 @@ def analyze_image_dataset(
         output_path=temp_path_1,
     )
 
-    # Step 2 -- 2d Embeddings
+    # Step 2: 2d Embeddings
     temp_path_2 = f"{output_path.stem}_2.pdf"
     plot_2d_embeddings(X, y, temp_path_2)
 
-    # Step 3 -- 3d Embeddings
+    # Step 3: 3d Embeddings
     temp_path_3 = f"{output_path.stem}_3.pdf"
     plot_3d_embeddings(X, y, temp_path_3)
 
-    # Step 4 -- Merge outputs
+    # Step 4: Merge outputs
     pdf_chunk_paths = [temp_path_0, temp_path_1, temp_path_2, temp_path_3]
 
     merger = PdfWriter()
@@ -50,6 +51,5 @@ def analyze_image_dataset(
     with open(output_path, "wb") as new_file:
         merger.write(new_file)
 
-    # Step 5 -- Cleanup
+    # Step 5: Cleanup
     [Path.unlink(Path(path)) for path in pdf_chunk_paths]
-        
