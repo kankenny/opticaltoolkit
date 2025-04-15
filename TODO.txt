@@ -13,7 +13,7 @@ HIGH
 10. Remove redundancy of class labels in summarize_images function                                          # DONE
 11. Implement the analyze API that analyzes dataset statistics                                              # DONE
 12. Change parameters and its behaviors of the plot_images fn (num_samples & num_cols)                      # DONE
-13. Fix pdf output of the analysis API
+13. Fix pdf output of the analysis API                                                                      # CLOSED, GITHUB'S PDF PARSERS FAULT
 
 
 __________________________________________________________________________________________________________________________________________
