@@ -39,13 +39,12 @@ def test_filters_from_pretrained_model():
 
 
 def test_filters_from_sample_pretrained_model():
+    import warnings
+
     import keras
-    import warnings 
-    
+
     warnings.filterwarnings(
-        "ignore",
-        category=UserWarning,
-        message=r"`build\(\)` was called on layer.*"
+        "ignore", category=UserWarning, message=r"`build\(\)` was called on layer.*"
     )
 
     model_name = "examples/custom_models/svdnet.keras"

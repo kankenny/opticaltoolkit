@@ -51,7 +51,7 @@ def get_embeddings(
     )  # height * width * channels (or height * width for grayscale)
     flat_images = X.reshape(num_images, image_size)
 
-    # Apply t-SNE to reduce dimensionality to 2D or 3D
+    # Apply embedding algorithm to reduce dimensionality to 2D or 3D
     manifold_model = get_manifold(
         embedding_type, dims=embedding_dims, kappa=kappa, seed=seed
     )
@@ -108,7 +108,6 @@ def get_embeddings(
             for cls in unique_classes:
                 ax.scatter([], [], [], color=class_to_color[cls], label=str(cls))
             ax.legend(title="Classes", loc="best")
-
 
     if not return_plot:
         plt.savefig(output_path)
