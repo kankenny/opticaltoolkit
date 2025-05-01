@@ -42,7 +42,7 @@ summarize_images(X, targets=y, num_images_per_class=10, num_classes=10)
 - Visualize the 2d and 3d embeddings of images
  ```python
 from sklearn.datasets import load_digits
-from optical_toolkit.embeddings import get_embeddings
+from optical_toolkit.visualize.embeddings import get_embeddings
 
 X, y = load_digits()
 
